@@ -2,7 +2,7 @@
 const CONFIG = {
     // Google Apps Script Web App URL for progress sync
     // Replace this URL with your actual Google Apps Script deployment URL
-    SCRIPT_URL: 'https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec',
+    SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbzcXRXxHjZoVjguDMfyi11xZcUocfive_Xj_kUEEr7gUWNH_nECXaw8uzf_-bqdd8I/exec',
     
     // App settings
     APP_VERSION: '1.0.0',
