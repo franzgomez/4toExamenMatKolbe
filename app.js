@@ -1,4 +1,4 @@
-// Math Learning App for 4th Grade
+// Math Learning App for 4th Grade - Kolbe
 class MathApp {
     constructor() {
         this.currentSection = 'home';
@@ -9,9 +9,29 @@ class MathApp {
 
     init() {
         this.setupEventListeners();
+        this.initializeModuleProgress();
+        this.setupStudentNameField();
         this.updateProgressDisplay();
         this.renderHomeStats();
         this.checkDailyStreak();
+        this.renderProgressDetails();
+
+        // Botones móviles
+        const btnToTop = document.getElementById('btnToTop');
+        const btnToHome = document.getElementById('btnToHome');
+
+        if (btnToTop) {
+            btnToTop.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+
+        if (btnToHome) {
+            btnToHome.addEventListener('click', () => {
+                this.showSection('home');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
     }
 
     // Event Listeners
@@ -34,7 +54,7 @@ class MathApp {
         });
 
         // Tab buttons
-        document.querySelectorAll('.tab-btn').forEach(btn => {
+        document.querySelectorAll('.lesson-tabs .tab-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const tab = e.target.dataset.tab;
                 this.showTab(tab);
@@ -44,6 +64,7 @@ class MathApp {
         // Export and sync buttons
         document.getElementById('exportProgress')?.addEventListener('click', () => this.exportProgress());
         document.getElementById('syncProgress')?.addEventListener('click', () => this.syncProgress());
+        document.getElementById('resetProgress')?.addEventListener('click', () => this.resetProgress());
 
         // Modal close
         document.querySelectorAll('.close').forEach(close => {
@@ -62,36 +83,42 @@ class MathApp {
         document.querySelectorAll('.nav-btn').forEach(btn => {
             btn.classList.remove('active');
         });
-        document.querySelector(`[data-section="${sectionId}"]`).classList.add('active');
+        const navBtn = document.querySelector(`[data-section="${sectionId}"]`);
+        if (navBtn) navBtn.classList.add('active');
 
         // Show section
         document.querySelectorAll('.content-section').forEach(section => {
             section.classList.remove('active');
         });
-        document.getElementById(sectionId).classList.add('active');
+        const sectionEl = document.getElementById(sectionId);
+        if (sectionEl) sectionEl.classList.add('active');
 
         this.currentSection = sectionId;
 
-        // Generate exercises for the current module
-        if (['fractions', 'decimals', 'proportions'].includes(sectionId)) {
+        // Generate exercises for the current module when needed
+        if (['fractions', 'decimals', 'proportions', 'operations'].includes(sectionId)) {
             this.generateModuleExercises(sectionId);
         }
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     showTab(tabId) {
-        const [module, tab] = tabId.split('-');
+        const [module] = tabId.split('-');
         
         // Update tab buttons
         document.querySelectorAll(`#${module} .tab-btn`).forEach(btn => {
             btn.classList.remove('active');
         });
-        document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
+        const tabBtn = document.querySelector(`[data-tab="${tabId}"]`);
+        if (tabBtn) tabBtn.classList.add('active');
 
         // Show tab content
         document.querySelectorAll(`#${module} .tab-content`).forEach(content => {
             content.classList.remove('active');
         });
-        document.getElementById(tabId).classList.add('active');
+        const tabContent = document.getElementById(tabId);
+        if (tabContent) tabContent.classList.add('active');
     }
 
     // Exercise Generation
@@ -99,7 +126,8 @@ class MathApp {
         return {
             fractions: this.generateFractionExercises(),
             decimals: this.generateDecimalExercises(),
-            proportions: this.generateProportionExercises()
+            proportions: this.generateProportionExercises(),
+            operations: this.generateOperationExercises()
         };
     }
 
@@ -139,7 +167,7 @@ class MathApp {
         // Fraction addition
         exercises.push({
             type: 'numeric',
-            question: '¿Cuánto es 1/4 + 1/4? (Escribe solo el numerador)',
+            question: '¿Cuánto es 1/4 + 1/4? (Escribe solo el numerador de la fracción resultado)',
             answer: 2,
             explanation: '1/4 + 1/4 = 2/4. Como tienen el mismo denominador, sumamos los numeradores.',
             hint: 'Cuando los denominadores son iguales, suma solo los numeradores.'
@@ -152,7 +180,7 @@ class MathApp {
             options: ['Cerca del 0', 'En la mitad', 'Cerca del 1', 'Después del 1'],
             correct: 2,
             explanation: '3/4 está cerca del 1 porque es 3 de 4 partes, casi completo.',
-            hint: '3/4 significa que faltan solo 1/4 para llegar al entero completo.'
+            hint: '3/4 significa que falta solo 1/4 para llegar al entero completo.'
         });
 
         return exercises;
@@ -267,6 +295,365 @@ class MathApp {
         return exercises;
     }
 
+    generateOperationExercises() {
+        // type: 'operation'
+        // Cada ejercicio tiene top, bottom, result como arrays de dígitos
+        const ops = [];
+
+        // 6 sumas 3 cifras
+        ops.push({
+            type: 'operation',
+            op: '+',
+            top: [2, 3, 7],
+            bottom: [1, 5, 4],
+            result: [3, 9, 1],
+            explanation: '237 + 154 = 391 sumando unidades, decenas y centenas.'
+        });
+        ops.push({
+            type: 'operation',
+            op: '+',
+            top: [4, 5, 8],
+            bottom: [3, 2, 7],
+            result: [7, 8, 5],
+            explanation: '458 + 327 = 785.'
+        });
+        ops.push({
+            type: 'operation',
+            op: '+',
+            top: [1, 9, 9],
+            bottom: [3, 0, 1],
+            result: [5, 0, 0],
+            explanation: '199 + 301 = 500.'
+        });
+        ops.push({
+            type: 'operation',
+            op: '+',
+            top: [6, 2, 4],
+            bottom: [1, 7, 3],
+            result: [7, 9, 7],
+            explanation: '624 + 173 = 797.'
+        });
+        ops.push({
+            type: 'operation',
+            op: '+',
+            top: [3, 0, 5],
+            bottom: [2, 4, 8],
+            result: [5, 5, 3],
+            explanation: '305 + 248 = 553.'
+        });
+        ops.push({
+            type: 'operation',
+            op: '+',
+            top: [7, 1, 6],
+            bottom: [1, 8, 9],
+            result: [9, 0, 5],
+            explanation: '716 + 189 = 905.'
+        });
+
+        // 6 restas 3 cifras
+        ops.push({
+            type: 'operation',
+            op: '-',
+            top: [5, 2, 0],
+            bottom: [2, 3, 7],
+            result: [2, 8, 3],
+            explanation: '520 - 237 = 283.'
+        });
+        ops.push({
+            type: 'operation',
+            op: '-',
+            top: [8, 4, 6],
+            bottom: [2, 5, 9],
+            result: [5, 8, 7],
+            explanation: '846 - 259 = 587.'
+        });
+        ops.push({
+            type: 'operation',
+            op: '-',
+            top: [7, 0, 0],
+            bottom: [4, 2, 5],
+            result: [2, 7, 5],
+            explanation: '700 - 425 = 275.'
+        });
+        ops.push({
+            type: 'operation',
+            op: '-',
+            top: [6, 3, 9],
+            bottom: [1, 4, 7],
+            result: [4, 9, 2],
+            explanation: '639 - 147 = 492.'
+        });
+        ops.push({
+            type: 'operation',
+            op: '-',
+            top: [9, 1, 0],
+            bottom: [3, 6, 4],
+            result: [5, 4, 6],
+            explanation: '910 - 364 = 546.'
+        });
+        ops.push({
+            type: 'operation',
+            op: '-',
+            top: [4, 5, 0],
+            bottom: [1, 7, 8],
+            result: [2, 7, 2],
+            explanation: '450 - 178 = 272.'
+        });
+
+        // 6 sumas 4 cifras
+        ops.push({
+            type: 'operation',
+            op: '+',
+            top: [1, 2, 3, 4],
+            bottom: [2, 0, 1, 6],
+            result: [3, 3, 5, 0],
+            explanation: '1234 + 2016 = 3350.'
+        });
+        ops.push({
+            type: 'operation',
+            op: '+',
+            top: [3, 4, 5, 8],
+            bottom: [1, 2, 0, 7],
+            result: [4, 6, 6, 5],
+            explanation: '3458 + 1207 = 4665.'
+        });
+        ops.push({
+            type: 'operation',
+            op: '+',
+            top: [2, 0, 5, 9],
+            bottom: [1, 4, 3, 2],
+            result: [3, 4, 9, 1],
+            explanation: '2059 + 1432 = 3491.'
+        });
+        ops.push({
+            type: 'operation',
+            op: '+',
+            top: [4, 0, 7, 6],
+            bottom: [3, 1, 2, 4],
+            result: [7, 1, 9, 0],
+            explanation: '4076 + 3124 = 7190.'
+        });
+        ops.push({
+            type: 'operation',
+            op: '+',
+            top: [5, 5, 0, 5],
+            bottom: [1, 2, 4, 5],
+            result: [6, 7, 5, 0],
+            explanation: '5505 + 1245 = 6750.'
+        });
+        ops.push({
+            type: 'operation',
+            op: '+',
+            top: [9, 0, 0, 9],
+            bottom: [0, 9, 9, 1],
+            result: [9, 9, 0, 0],
+            explanation: '9009 + 0991 = 9900.'
+        });
+
+        // 6 restas 4 cifras
+        ops.push({
+            type: 'operation',
+            op: '-',
+            top: [5, 0, 0, 0],
+            bottom: [2, 3, 5, 7],
+            result: [2, 6, 4, 3],
+            explanation: '5000 - 2357 = 2643.'
+        });
+        ops.push({
+            type: 'operation',
+            op: '-',
+            top: [8, 4, 0, 2],
+            bottom: [3, 1, 2, 5],
+            result: [5, 2, 7, 7],
+            explanation: '8402 - 3125 = 5277.'
+        });
+        ops.push({
+            type: 'operation',
+            op: '-',
+            top: [7, 2, 3, 0],
+            bottom: [4, 5, 6, 8],
+            result: [2, 6, 6, 2],
+            explanation: '7230 - 4568 = 2662.'
+        });
+        ops.push({
+            type: 'operation',
+            op: '-',
+            top: [9, 0, 1, 5],
+            bottom: [2, 8, 7, 6],
+            result: [6, 2, 3, 9],
+            explanation: '9015 - 2876 = 6139 (ajustado: 9015-2876=6139).'
+        });
+        ops.push({
+            type: 'operation',
+            op: '-',
+            top: [6, 6, 6, 6],
+            bottom: [3, 3, 3, 3],
+            result: [3, 3, 3, 3],
+            explanation: '6666 - 3333 = 3333.'
+        });
+        ops.push({
+            type: 'operation',
+            op: '-',
+            top: [4, 2, 0, 0],
+            bottom: [1, 9, 9, 9],
+            result: [2, 2, 0, 1],
+            explanation: '4200 - 1999 = 2201.'
+        });
+
+        // 6 multiplicaciones (1 cifra)
+        ops.push({
+            type: 'operation',
+            op: '×',
+            top: [2, 3, 7],
+            bottom: [4],
+            result: [9, 4, 8],
+            explanation: '237 × 4 = 948.'
+        });
+        ops.push({
+            type: 'operation',
+            op: '×',
+            top: [1, 5, 6],
+            bottom: [3],
+            result: [4, 6, 8],
+            explanation: '156 × 3 = 468.'
+        });
+        ops.push({
+            type: 'operation',
+            op: '×',
+            top: [3, 2, 0],
+            bottom: [5],
+            result: [1, 6, 0, 0],
+            explanation: '320 × 5 = 1600.'
+        });
+        ops.push({
+            type: 'operation',
+            op: '×',
+            top: [2, 4, 5],
+            bottom: [6],
+            result: [1, 4, 7, 0],
+            explanation: '245 × 6 = 1470.'
+        });
+        ops.push({
+            type: 'operation',
+            op: '×',
+            top: [4, 0, 2],
+            bottom: [7],
+            result: [2, 8, 1, 4],
+            explanation: '402 × 7 = 2814.'
+        });
+        ops.push({
+            type: 'operation',
+            op: '×',
+            top: [1, 2, 5],
+            bottom: [8],
+            result: [1, 0, 0, 0],
+            explanation: '125 × 8 = 1000.'
+        });
+
+        // 6 multiplicaciones (2 cifras)
+        ops.push({
+            type: 'operation',
+            op: '×',
+            top: [1, 2, 4],
+            bottom: [1, 2],
+            result: [1, 4, 8, 8],
+            explanation: '124 × 12 = 1488.'
+        });
+        ops.push({
+            type: 'operation',
+            op: '×',
+            top: [2, 1, 5],
+            bottom: [1, 3],
+            result: [2, 7, 9, 5],
+            explanation: '215 × 13 = 2795.'
+        });
+        ops.push({
+            type: 'operation',
+            op: '×',
+            top: [3, 0, 6],
+            bottom: [1, 4],
+            result: [4, 2, 8, 4],
+            explanation: '306 × 14 = 4284.'
+        });
+        ops.push({
+            type: 'operation',
+            op: '×',
+            top: [1, 5, 0],
+            bottom: [1, 9],
+            result: [2, 8, 5, 0],
+            explanation: '150 × 19 = 2850.'
+        });
+        ops.push({
+            type: 'operation',
+            op: '×',
+            top: [2, 4, 3],
+            bottom: [1, 6],
+            result: [3, 8, 8, 8],
+            explanation: '243 × 16 = 3888.'
+        });
+        ops.push({
+            type: 'operation',
+            op: '×',
+            top: [1, 2, 5],
+            bottom: [2, 0],
+            result: [2, 5, 0, 0],
+            explanation: '125 × 20 = 2500.'
+        });
+
+        // 6 divisiones (1 cifra, con resto)
+        // Para la corrección solo usamos el cociente entero
+        ops.push({
+            type: 'operation',
+            op: '÷',
+            top: [4, 8],
+            bottom: [4],
+            result: [1, 2],
+            explanation: '48 ÷ 4 = 12.'
+        });
+        ops.push({
+            type: 'operation',
+            op: '÷',
+            top: [9, 6],
+            bottom: [3],
+            result: [3, 2],
+            explanation: '96 ÷ 3 = 32.'
+        });
+        ops.push({
+            type: 'operation',
+            op: '÷',
+            top: [8, 4],
+            bottom: [7],
+            result: [1, 2],
+            explanation: '84 ÷ 7 = 12.'
+        });
+        ops.push({
+            type: 'operation',
+            op: '÷',
+            top: [7, 2],
+            bottom: [8],
+            result: [9],
+            explanation: '72 ÷ 8 = 9.'
+        });
+        ops.push({
+            type: 'operation',
+            op: '÷',
+            top: [9, 0],
+            bottom: [5],
+            result: [1, 8],
+            explanation: '90 ÷ 5 = 18.'
+        });
+        ops.push({
+            type: 'operation',
+            op: '÷',
+            top: [7, 5],
+            bottom: [3],
+            result: [2, 5],
+            explanation: '75 ÷ 3 = 25.'
+        });
+
+        return ops;
+    }
+
     generateAllExercises() {
         // Generate fraction exercises
         this.renderExercises('fractions', 'fractionExercises');
@@ -285,6 +672,10 @@ class MathApp {
 
         // Generate fraction game
         this.renderFractionGame();
+
+        // Generate operations
+        this.renderExercises('operations', 'operationExercises');
+        this.renderOperationsGame();
     }
 
     generateModuleExercises(module) {
@@ -297,6 +688,9 @@ class MathApp {
         } else if (module === 'proportions') {
             this.renderExercises('proportions', 'proportionExercises');
             this.renderTableExercises();
+        } else if (module === 'operations') {
+            this.renderExercises('operations', 'operationExercises');
+            this.renderOperationsGame();
         }
     }
 
@@ -318,7 +712,67 @@ class MathApp {
         card.className = 'exercise-card';
         card.dataset.module = module;
         card.dataset.index = index;
+        card.dataset.id = `${module}-${index}`;
 
+        // OPERATIONS (casita B2)
+        if (exercise.type === 'operation') {
+            const topDigits = exercise.top;
+            const bottomDigits = exercise.bottom;
+            const resultDigits = exercise.result;
+
+            const opSymbol = exercise.op;
+
+            let topRow = '';
+            topDigits.forEach(d => {
+                topRow += `<div class="digit-box">${d}</div>`;
+            });
+
+            let bottomRow = '';
+            bottomDigits.forEach(d => {
+                bottomRow += `<div class="digit-box">${d}</div>`;
+            });
+
+            let inputsRow = '';
+            resultDigits.forEach((_, i) => {
+                inputsRow += `<input type="text" maxlength="1" class="digit-input" data-pos="${i}">`;
+            });
+
+            card.innerHTML = `
+                <div class="exercise-question">
+                    Resuelve la operación y completa los casilleros de abajo con el resultado:
+                </div>
+                <div class="operation-layout">
+                    <div class="operation-row">
+                        <span class="op-symbol">&nbsp;</span>
+                        <div class="digit-row">
+                            ${topRow}
+                        </div>
+                    </div>
+                    <div class="operation-row">
+                        <span class="op-symbol">${opSymbol}</span>
+                        <div class="digit-row">
+                            ${bottomRow}
+                        </div>
+                    </div>
+                    <div class="operation-separator"></div>
+                    <div class="operation-row">
+                        <span class="op-symbol">&nbsp;</span>
+                        <div class="digit-row">
+                            ${inputsRow}
+                        </div>
+                    </div>
+                </div>
+                <button class="check-btn operation-check-btn">Verificar</button>
+                <div class="explanation-content" style="margin-top:15px; display:none;">
+                    <strong>Explicación:</strong> ${exercise.explanation}
+                </div>
+            `;
+
+            this.setupOperationListeners(card, exercise);
+            return card;
+        }
+
+        // Multiple choice / numeric (resto de módulos)
         let optionsHTML = '';
         
         if (exercise.type === 'multiple_choice') {
@@ -332,7 +786,7 @@ class MathApp {
         } else if (exercise.type === 'numeric') {
             optionsHTML = `
                 <div class="numeric-container">
-                    <input type="number" class="numeric-input" placeholder="Tu respuesta" step="0.1">
+                    <input type="number" class="numeric-input" placeholder="Tu respuesta" step="0.01">
                     <button class="check-btn">Verificar</button>
                 </div>
             `;
@@ -341,10 +795,11 @@ class MathApp {
         card.innerHTML = `
             <div class="exercise-question">${exercise.question}</div>
             ${optionsHTML}
+            ${exercise.hint ? `
             <button class="hint-btn">💡 Pista</button>
             <div class="hint-content">
                 <strong>Pista:</strong> ${exercise.hint}
-            </div>
+            </div>` : ''}
             <div class="explanation-content" style="display: none;">
                 <strong>Explicación:</strong> ${exercise.explanation}
             </div>
@@ -355,18 +810,26 @@ class MathApp {
     }
 
     setupExerciseListeners(card, exercise) {
+        const exerciseId = card.dataset.id;
+
         // Multiple choice options
         card.querySelectorAll('.option-btn').forEach((btn, index) => {
             btn.addEventListener('click', () => {
-                this.selectOption(card, index, exercise);
+                this.selectOption(card, index, exercise, exerciseId);
             });
         });
 
         // Numeric input
         const checkBtn = card.querySelector('.check-btn');
-        if (checkBtn) {
+        const numericInput = card.querySelector('.numeric-input');
+        if (checkBtn && numericInput) {
             checkBtn.addEventListener('click', () => {
-                this.checkNumericAnswer(card, exercise);
+                this.checkNumericAnswer(card, exercise, exerciseId);
+            });
+            numericInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    this.checkNumericAnswer(card, exercise, exerciseId);
+                }
             });
         }
 
@@ -375,12 +838,80 @@ class MathApp {
         if (hintBtn) {
             hintBtn.addEventListener('click', () => {
                 const hintContent = card.querySelector('.hint-content');
-                hintContent.classList.toggle('show');
+                if (hintContent) hintContent.classList.toggle('show');
             });
         }
     }
 
-    selectOption(card, selectedIndex, exercise) {
+    setupOperationListeners(card, exercise) {
+        const exerciseId = card.dataset.id;
+        const inputs = card.querySelectorAll('.digit-input');
+        const button = card.querySelector('.operation-check-btn');
+
+        if (!button || !inputs.length) return;
+
+        const correctDigits = exercise.result;
+
+        const checkOperation = () => {
+            let allFilled = true;
+            const userDigits = [];
+
+            inputs.forEach((input, idx) => {
+                const val = input.value.trim();
+                if (val === '') {
+                    allFilled = false;
+                }
+                userDigits[idx] = val;
+            });
+
+            if (!allFilled) {
+                this.showFeedback('Completa todos los casilleros', 'Asegúrate de escribir todos los dígitos del resultado.', false);
+                return;
+            }
+
+            // Normalizamos: cada dígito es un número, permitimos 0-9
+            let allCorrect = true;
+            inputs.forEach((input, idx) => {
+                input.classList.remove('correct', 'incorrect');
+                const expected = String(correctDigits[idx]);
+                const given = userDigits[idx];
+                if (given === expected) {
+                    input.classList.add('correct');
+                } else {
+                    input.classList.add('incorrect');
+                    allCorrect = false;
+                }
+            });
+
+            const module = card.dataset.module;
+            if (allCorrect) {
+                card.classList.add('correct');
+                card.classList.remove('incorrect');
+                this.showFeedback('¡Correcto! 🎉', exercise.explanation, true);
+                this.updateProgress(module, true, exerciseId);
+            } else {
+                card.classList.add('incorrect');
+                card.classList.remove('correct');
+                const correctoTexto = correctDigits.join('');
+                this.showFeedback('Revisa tus dígitos', `El resultado correcto es ${correctoTexto}. ${exercise.explanation}`, false);
+                this.updateProgress(module, false, exerciseId);
+            }
+
+            const explanation = card.querySelector('.explanation-content');
+            if (explanation) explanation.style.display = 'block';
+        };
+
+        button.addEventListener('click', checkOperation);
+        inputs.forEach(input => {
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    checkOperation();
+                }
+            });
+        });
+    }
+
+    selectOption(card, selectedIndex, exercise, exerciseId) {
         const options = card.querySelectorAll('.option-btn');
         const isCorrect = selectedIndex === exercise.correct;
 
@@ -397,43 +928,48 @@ class MathApp {
             if (isCorrect) {
                 options[selectedIndex].classList.add('correct');
                 card.classList.add('correct');
+                card.classList.remove('incorrect');
                 this.showFeedback('¡Correcto! 🎉', exercise.explanation, true);
-                this.updateProgress(card.dataset.module, true);
+                this.updateProgress(card.dataset.module, true, exerciseId);
             } else {
                 options[selectedIndex].classList.add('incorrect');
-                options[exercise.correct].classList.add('correct');
+                const correctBtn = options[exercise.correct];
+                if (correctBtn) correctBtn.classList.add('correct');
                 card.classList.add('incorrect');
+                card.classList.remove('correct');
                 this.showFeedback('¡Inténtalo de nuevo! 🤔', exercise.explanation, false);
-                this.updateProgress(card.dataset.module, false);
+                this.updateProgress(card.dataset.module, false, exerciseId);
             }
             
             // Show explanation
             const explanation = card.querySelector('.explanation-content');
-            explanation.style.display = 'block';
+            if (explanation) explanation.style.display = 'block';
             
-        }, 500);
+        }, 400);
     }
 
-    checkNumericAnswer(card, exercise) {
+    checkNumericAnswer(card, exercise, exerciseId) {
         const input = card.querySelector('.numeric-input');
         const userAnswer = parseFloat(input.value);
         const isCorrect = Math.abs(userAnswer - exercise.answer) < 0.01;
 
         if (isCorrect) {
             card.classList.add('correct');
+            card.classList.remove('incorrect');
             input.style.borderColor = '#4caf50';
             this.showFeedback('¡Correcto! 🎉', exercise.explanation, true);
-            this.updateProgress(card.dataset.module, true);
+            this.updateProgress(card.dataset.module, true, exerciseId);
         } else {
             card.classList.add('incorrect');
+            card.classList.remove('correct');
             input.style.borderColor = '#f44336';
             this.showFeedback(`¡Inténtalo de nuevo! La respuesta correcta es ${exercise.answer}`, exercise.explanation, false);
-            this.updateProgress(card.dataset.module, false);
+            this.updateProgress(card.dataset.module, false, exerciseId);
         }
 
         // Show explanation
         const explanation = card.querySelector('.explanation-content');
-        explanation.style.display = 'block';
+        if (explanation) explanation.style.display = 'block';
     }
 
     renderMoneyExercises() {
@@ -459,7 +995,7 @@ class MathApp {
 
         container.innerHTML = '';
         
-        moneyExercises.forEach((exercise, index) => {
+        moneyExercises.forEach((exercise) => {
             const exerciseDiv = document.createElement('div');
             exerciseDiv.className = 'exercise-card';
             
@@ -478,24 +1014,35 @@ class MathApp {
             content += `
                 <div class="numeric-container">
                     <input type="number" class="numeric-input" placeholder="€" step="0.01">
-                    <button class="check-btn" onclick="this.parentElement.parentElement.checkAnswer(${exercise.answer})">Verificar</button>
+                    <button class="check-btn">Verificar</button>
                 </div>
             `;
             
             exerciseDiv.innerHTML = content;
-            exerciseDiv.checkAnswer = (correctAnswer) => {
-                const input = exerciseDiv.querySelector('.numeric-input');
+
+            const btn = exerciseDiv.querySelector('.check-btn');
+            const input = exerciseDiv.querySelector('.numeric-input');
+
+            const checkAnswer = () => {
                 const userAnswer = parseFloat(input.value);
+                const correctAnswer = exercise.answer;
                 const isCorrect = Math.abs(userAnswer - correctAnswer) < 0.01;
                 
                 if (isCorrect) {
                     exerciseDiv.classList.add('correct');
+                    exerciseDiv.classList.remove('incorrect');
                     this.showFeedback('¡Correcto! 🎉', `La respuesta es ${correctAnswer.toFixed(2)}€`, true);
                 } else {
                     exerciseDiv.classList.add('incorrect');
-                    this.showFeedback(`Incorrecto. La respuesta es ${correctAnswer.toFixed(2)}€`, '', false);
+                    exerciseDiv.classList.remove('correct');
+                    this.showFeedback('Incorrecto', `La respuesta es ${correctAnswer.toFixed(2)}€`, false);
                 }
             };
+
+            btn.addEventListener('click', checkAnswer);
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') checkAnswer();
+            });
             
             container.appendChild(exerciseDiv);
         });
@@ -525,7 +1072,7 @@ class MathApp {
                     <tr><th>Bolígrafos</th><th>Precio (€)</th></tr>
         `;
 
-        tableExercise.table.forEach((row, index) => {
+        tableExercise.table.forEach((row) => {
             tableHTML += `<tr>
                 <td>${row.bolígrafos}</td>
                 <td>
@@ -539,15 +1086,16 @@ class MathApp {
 
         tableHTML += `
                 </table>
-                <button class="check-btn" onclick="this.parentElement.checkTable()">Verificar Tabla</button>
+                <button class="check-btn">Verificar Tabla</button>
             </div>
         `;
 
         container.innerHTML = tableHTML;
 
-        // Add check function to the exercise card
         const exerciseCard = container.querySelector('.exercise-card');
-        exerciseCard.checkTable = () => {
+        const button = exerciseCard.querySelector('.check-btn');
+
+        button.addEventListener('click', () => {
             const inputs = exerciseCard.querySelectorAll('.table-input');
             let allCorrect = true;
 
@@ -565,26 +1113,19 @@ class MathApp {
 
             if (allCorrect) {
                 exerciseCard.classList.add('correct');
+                exerciseCard.classList.remove('incorrect');
                 this.showFeedback('¡Excelente! Has completado la tabla correctamente 🎉', 'Cada bolígrafo cuesta 3€, entonces multiplicas el número de bolígrafos por 3.', true);
             } else {
-                this.showFeedback('Revisa tus respuestas. Recuerda: cada bolígrafo cuesta 3€', '', false);
+                exerciseCard.classList.add('incorrect');
+                exerciseCard.classList.remove('correct');
+                this.showFeedback('Revisa tus respuestas', 'Recuerda: cada bolígrafo cuesta 3€.', false);
             }
-        };
+        });
     }
 
     renderFractionGame() {
         const container = document.getElementById('fractionGame');
         if (!container) return;
-
-        const gameData = {
-            shapes: ['circle', 'rectangle', 'triangle'],
-            fractions: [
-                { numerator: 1, denominator: 2 },
-                { numerator: 1, denominator: 3 },
-                { numerator: 2, denominator: 3 },
-                { numerator: 3, denominator: 4 }
-            ]
-        };
 
         let gameHTML = `
             <div class="game-round">
@@ -606,8 +1147,8 @@ class MathApp {
     startNewGameRound() {
         const gameShape = document.getElementById('gameShape');
         const gameOptions = document.getElementById('gameOptions');
+        if (!gameShape || !gameOptions) return;
         
-        // Random fraction
         const fractions = [
             { numerator: 1, denominator: 2 },
             { numerator: 1, denominator: 3 },
@@ -618,7 +1159,6 @@ class MathApp {
         
         const correctFraction = fractions[Math.floor(Math.random() * fractions.length)];
         
-        // Create visual representation
         gameShape.innerHTML = this.createFractionVisual(correctFraction);
         
         // Create options (correct + 3 wrong)
@@ -678,78 +1218,163 @@ class MathApp {
             visual += `</div>`;
         }
         
-        return visual + `
-            <style>
-                .fraction-circle {
-                    display: grid;
-                    grid-template-columns: repeat(${Math.ceil(Math.sqrt(denominator))}, 1fr);
-                    gap: 2px;
-                    width: 200px;
-                    height: 200px;
-                    margin: 20px auto;
-                }
-                .circle-segment {
-                    background: #e0e0e0;
-                    border: 2px solid #666;
-                    border-radius: 10px;
-                }
-                .circle-segment.filled {
-                    background: #4facfe;
-                }
-                .fraction-bar {
-                    display: flex;
-                    width: 300px;
-                    height: 60px;
-                    margin: 20px auto;
-                    border: 2px solid #666;
-                    border-radius: 10px;
-                    overflow: hidden;
-                }
-                .bar-segment {
-                    flex: 1;
-                    background: #e0e0e0;
-                    border-right: 1px solid #666;
-                }
-                .bar-segment:last-child {
-                    border-right: none;
-                }
-                .bar-segment.filled {
-                    background: #4facfe;
-                }
-            </style>
+        return visual;
+    }
+
+    renderOperationsGame() {
+        const container = document.getElementById('operationsGame');
+        if (!container) return;
+
+        container.innerHTML = `
+            <div class="game-round">
+                <h4>Elige la opción correcta</h4>
+                <p id="opGameQuestion"></p>
+                <div class="exercise-options" id="opGameOptions"></div>
+                <button class="check-btn" id="opGameNew">Nueva Pregunta</button>
+            </div>
         `;
+
+        const newBtn = document.getElementById('opGameNew');
+        newBtn.addEventListener('click', () => this.startOperationsGameRound());
+        this.startOperationsGameRound();
+    }
+
+    startOperationsGameRound() {
+        const questionEl = document.getElementById('opGameQuestion');
+        const optionsEl = document.getElementById('opGameOptions');
+        if (!questionEl || !optionsEl) return;
+
+        const pool = this.exercises.operations;
+        if (!pool || !pool.length) return;
+
+        const base = pool[Math.floor(Math.random() * pool.length)];
+
+        const topNum = parseInt(base.top.join(''), 10);
+        const bottomNum = parseInt(base.bottom.join(''), 10);
+        let correctValue;
+
+        switch (base.op) {
+            case '+':
+                correctValue = topNum + bottomNum;
+                break;
+            case '-':
+                correctValue = topNum - bottomNum;
+                break;
+            case '×':
+                correctValue = topNum * bottomNum;
+                break;
+            case '÷':
+                correctValue = Math.floor(topNum / bottomNum);
+                break;
+            default:
+                correctValue = parseInt(base.result.join(''), 10);
+        }
+
+        questionEl.textContent = `¿Cuál es el resultado de ${topNum} ${base.op} ${bottomNum}?`;
+
+        // Generamos 3 opciones incorrectas cercanas
+        const options = new Set();
+        options.add(correctValue);
+
+        while (options.size < 4) {
+            const delta = Math.floor(Math.random() * 15) + 1;
+            const sign = Math.random() < 0.5 ? -1 : 1;
+            const candidate = correctValue + sign * delta;
+            if (candidate > 0) options.add(candidate);
+        }
+
+        const optionsArr = Array.from(options);
+        optionsArr.sort(() => Math.random() - 0.5);
+        const correctIndex = optionsArr.indexOf(correctValue);
+
+        optionsEl.innerHTML = '';
+        optionsArr.forEach((value, index) => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.textContent = value;
+            btn.addEventListener('click', () => {
+                if (index === correctIndex) {
+                    btn.classList.add('correct');
+                    this.showFeedback('¡Correcto! 🎉', `Muy bien, ${topNum} ${base.op} ${bottomNum} = ${correctValue}.`, true);
+                } else {
+                    btn.classList.add('incorrect');
+                    optionsEl.children[correctIndex].classList.add('correct');
+                    this.showFeedback('¡Inténtalo de nuevo!', `La respuesta correcta era ${correctValue}.`, false);
+                }
+                [...optionsEl.children].forEach(b => b.disabled = true);
+            });
+            optionsEl.appendChild(btn);
+        });
     }
 
     // Progress Management
-    updateProgress(module, isCorrect) {
+    initializeModuleProgress() {
+        const modules = ['fractions', 'decimals', 'proportions', 'operations'];
+
+        if (!this.progress) this.progress = {};
+        if (!this.progress.solvedExercises) {
+            this.progress.solvedExercises = {}; // { "fractions-0": true, ... }
+        }
+
+        modules.forEach(module => {
+            const list = this.exercises[module];
+            if (!list) return;
+            const totalExercises = list.length;
+
+            if (!this.progress[module]) {
+                this.progress[module] = {
+                    completed: 0,
+                    total: totalExercises,
+                    correct: 0,
+                    attempts: 0
+                };
+            } else {
+                this.progress[module].total = totalExercises;
+                if (this.progress[module].completed > totalExercises) {
+                    this.progress[module].completed = totalExercises;
+                }
+            }
+        });
+
+        this.saveProgress();
+    }
+
+    updateProgress(module, isCorrect, exerciseId) {
         if (!this.progress[module]) {
-            this.progress[module] = { completed: 0, total: 0, correct: 0 };
+            this.progress[module] = { completed: 0, total: this.exercises[module]?.length || 0, correct: 0, attempts: 0 };
         }
-        
-        this.progress[module].total++;
+
+        this.progress[module].attempts = (this.progress[module].attempts || 0) + 1;
+
         if (isCorrect) {
-            this.progress[module].correct++;
-            this.progress[module].completed++;
-            this.addStar();
+            this.progress[module].correct = (this.progress[module].correct || 0) + 1;
+
+            if (!this.progress.solvedExercises) {
+                this.progress.solvedExercises = {};
+            }
+
+            if (!this.progress.solvedExercises[exerciseId]) {
+                this.progress.solvedExercises[exerciseId] = true;
+                this.progress[module].completed++;
+                this.addStar();
+            }
         }
-        
+
         this.saveProgress();
         this.updateProgressDisplay();
         this.checkAchievements();
-
-        // Log progress for sync
-        this.logProgress(module, isCorrect);
+        this.renderProgressDetails();
+        this.logProgress(module, isCorrect, exerciseId);
     }
 
-    logProgress(module, isCorrect) {
+    logProgress(module, isCorrect, exerciseId) {
         const timestamp = new Date().toISOString();
         const progressEntry = {
-            userId: "child1",
+            userId: this.progress.studentName || "anonimo",
             timestamp: timestamp,
             module: module,
             subTopic: this.currentSection,
-            question: `Exercise in ${module}`,
-            answer: isCorrect ? "correct" : "incorrect",
+            questionId: exerciseId,
             correct: isCorrect
         };
 
@@ -769,14 +1394,19 @@ class MathApp {
     }
 
     updateProgressDisplay() {
-        // Update overall progress
-        const totalExercises = Object.values(this.progress)
-            .filter(p => p && p.total !== undefined)
-            .reduce((sum, p) => sum + p.total, 0);
-        
-        const completedExercises = Object.values(this.progress)
-            .filter(p => p && p.completed !== undefined)
-            .reduce((sum, p) => sum + p.completed, 0);
+        // Overall progress based on completed vs total ejercicios
+        const modules = ['fractions', 'decimals', 'proportions', 'operations'];
+
+        let totalExercises = 0;
+        let completedExercises = 0;
+
+        modules.forEach(module => {
+            const data = this.progress[module];
+            if (data && typeof data.total === 'number') {
+                totalExercises += data.total;
+                completedExercises += (data.completed || 0);
+            }
+        });
 
         const overallPercent = totalExercises > 0 ? Math.round((completedExercises / totalExercises) * 100) : 0;
         
@@ -787,7 +1417,7 @@ class MathApp {
         if (progressText) progressText.textContent = `${overallPercent}% completado`;
 
         // Update module progress
-        ['fractions', 'decimals', 'proportions'].forEach(module => {
+        modules.forEach(module => {
             const moduleData = this.progress[module];
             if (moduleData) {
                 const percent = moduleData.total > 0 ? Math.round((moduleData.completed / moduleData.total) * 100) : 0;
@@ -808,9 +1438,14 @@ class MathApp {
 
         if (totalStars) totalStars.textContent = this.progress.totalStars || 0;
         if (totalExercises) {
-            const total = Object.values(this.progress)
-                .filter(p => p && p.total !== undefined)
-                .reduce((sum, p) => sum + p.total, 0);
+            let total = 0;
+            const modules = ['fractions', 'decimals', 'proportions', 'operations'];
+            modules.forEach(module => {
+                const data = this.progress[module];
+                if (data && typeof data.attempts === 'number') {
+                    total += data.attempts;
+                }
+            });
             totalExercises.textContent = total;
         }
         if (streakDays) streakDays.textContent = this.progress.streakDays || 0;
@@ -841,7 +1476,7 @@ class MathApp {
         const achievements = [];
         
         // First star
-        if (this.progress.totalStars >= 1 && !this.progress.achievements?.includes('first-star')) {
+        if ((this.progress.totalStars || 0) >= CONFIG.ACHIEVEMENTS.FIRST_STAR && !this.progress.achievements?.includes('first-star')) {
             achievements.push({
                 id: 'first-star',
                 name: 'Primera Estrella',
@@ -851,21 +1486,27 @@ class MathApp {
         }
         
         // Perfect score in module
-        Object.entries(this.progress).forEach(([module, data]) => {
-            if (data && data.total >= 5 && data.correct === data.total) {
+        ['fractions', 'decimals', 'proportions', 'operations'].forEach(module => {
+            const data = this.progress[module];
+            if (data && data.total >= CONFIG.ACHIEVEMENTS.PERFECT_MODULE && data.completed === data.total) {
                 const achievementId = `perfect-${module}`;
                 if (!this.progress.achievements?.includes(achievementId)) {
+                    const names = {
+                        fractions: 'Fracciones',
+                        decimals: 'Decimales',
+                        proportions: 'Proporciones',
+                        operations: 'Operaciones'
+                    };
                     achievements.push({
                         id: achievementId,
-                        name: `Maestro de ${module}`,
+                        name: `Maestro de ${names[module] || module}`,
                         icon: '🏆',
-                        description: `¡Perfecto en ${module}!`
+                        description: `¡Completaste todos los ejercicios de ${names[module] || module}!`
                     });
                 }
             }
         });
         
-        // Add achievements
         if (!this.progress.achievements) {
             this.progress.achievements = [];
         }
@@ -895,6 +1536,8 @@ class MathApp {
         const modal = document.getElementById('feedbackModal');
         const content = document.getElementById('feedbackContent');
         
+        if (!modal || !content) return;
+
         content.innerHTML = `
             <h3>${title}</h3>
             <p>${message}</p>
@@ -929,38 +1572,115 @@ class MathApp {
             totalStars: 0,
             streakDays: 0,
             lastVisit: null,
-            achievements: []
+            achievements: [],
+            solvedExercises: {}
         };
     }
 
     exportProgress() {
-        const dataStr = JSON.stringify(this.progress, null, 2);
-        const dataBlob = new Blob([dataStr], { type: 'application/json' });
-        
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(dataBlob);
-        link.download = `math_progress_${new Date().toISOString().split('T')[0]}.json`;
-        link.click();
-        
-        this.showFeedback('¡Progreso Exportado!', 'Tu progreso se ha descargado como archivo JSON.', true);
+        if (!this.progress.studentName || this.progress.studentName.trim() === '') {
+            this.showFeedback('Falta el nombre', 'Por favor completa tu nombre y apellido antes de descargar el progreso.', false);
+            return;
+        }
+
+        const win = window.open('', '_blank');
+        const today = new Date().toLocaleString();
+
+        let html = `
+            <html>
+            <head>
+                <title>Progreso Matemáticas Kolbe 4º</title>
+                <style>
+                    body { font-family: Arial, sans-serif; padding: 20px; }
+                    h1, h2 { color: #2c3e50; }
+                    table { border-collapse: collapse; width: 100%; margin-top: 15px; }
+                    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+                    th { background: #f0f0f0; }
+                    .small { font-size: 0.9rem; color: #555; }
+                </style>
+            </head>
+            <body>
+                <h1>Progreso Matemáticas Kolbe – 4º Grado</h1>
+                <p><strong>Alumno:</strong> ${this.progress.studentName}</p>
+                <p class="small"><strong>Fecha:</strong> ${today}</p>
+        `;
+
+        const modules = ['fractions', 'decimals', 'proportions', 'operations'];
+        const nameMap = {
+            fractions: 'Fracciones',
+            decimals: 'Decimales',
+            proportions: 'Proporcionalidad',
+            operations: 'Operaciones'
+        };
+
+        html += `<h2>Resumen por módulo</h2>
+                 <table>
+                 <tr><th>Módulo</th><th>Completados</th><th>Total</th><th>Porcentaje</th></tr>`;
+
+        modules.forEach(module => {
+            const data = this.progress[module];
+            if (!data || !data.total) return;
+            const percent = data.total > 0 ? Math.round((data.completed / data.total) * 100) : 0;
+            html += `<tr>
+                        <td>${nameMap[module] || module}</td>
+                        <td>${data.completed}</td>
+                        <td>${data.total}</td>
+                        <td>${percent}%</td>
+                    </tr>`;
+        });
+
+        html += `</table>`;
+
+        html += `
+            <h2>Estadísticas generales</h2>
+            <p><strong>Estrellas totales:</strong> ${this.progress.totalStars || 0}</p>
+            <p><strong>Días seguidos usando la app:</strong> ${this.progress.streakDays || 0}</p>
+            </body></html>
+        `;
+
+        win.document.write(html);
+        win.document.close();
+        win.focus();
+        win.print();
+
+        this.showFeedback('Reporte generado', 'Se abrió una ventana con tu progreso. Usá "Guardar como PDF" en la impresión.', true);
     }
 
     async syncProgress() {
         const syncStatus = document.getElementById('syncStatus');
         
+        if (!CONFIG.FEATURES.PROGRESS_SYNC) {
+            if (syncStatus) {
+                syncStatus.textContent = 'La sincronización está desactivada.';
+                syncStatus.className = 'sync-status error';
+            }
+            return;
+        }
+
+        if (!this.progress.studentName || this.progress.studentName.trim() === '') {
+            if (syncStatus) {
+                syncStatus.textContent = 'Completa el nombre antes de sincronizar.';
+                syncStatus.className = 'sync-status error';
+            }
+            return;
+        }
+
         if (!this.progress.syncLog || this.progress.syncLog.length === 0) {
-            syncStatus.textContent = 'No hay datos nuevos para sincronizar.';
-            syncStatus.className = 'sync-status';
+            if (syncStatus) {
+                syncStatus.textContent = 'No hay datos nuevos para sincronizar.';
+                syncStatus.className = 'sync-status';
+            }
             return;
         }
 
         try {
-            syncStatus.textContent = 'Sincronizando...';
-            syncStatus.className = 'sync-status';
+            if (syncStatus) {
+                syncStatus.textContent = 'Sincronizando...';
+                syncStatus.className = 'sync-status';
+            }
 
-            // Send each log entry
             for (const entry of this.progress.syncLog) {
-                const response = await fetch(CONFIG.SCRIPT_URL, {
+                await fetch(CONFIG.SCRIPT_URL, {
                     method: 'POST',
                     mode: 'no-cors',
                     headers: {
@@ -970,18 +1690,109 @@ class MathApp {
                 });
             }
 
-            // Clear sync log after successful sync
             this.progress.syncLog = [];
             this.saveProgress();
 
-            syncStatus.textContent = '✅ Progreso sincronizado correctamente';
-            syncStatus.className = 'sync-status success';
+            if (syncStatus) {
+                syncStatus.textContent = '✅ Progreso sincronizado correctamente';
+                syncStatus.className = 'sync-status success';
+            }
             
         } catch (error) {
             console.error('Sync error:', error);
-            syncStatus.textContent = '❌ Error al sincronizar. Inténtalo más tarde.';
-            syncStatus.className = 'sync-status error';
+            if (syncStatus) {
+                syncStatus.textContent = '❌ Error al sincronizar. Inténtalo más tarde.';
+                syncStatus.className = 'sync-status error';
+            }
         }
+    }
+
+    resetProgress() {
+        if (!confirm('¿Seguro que querés borrar todo el progreso y empezar de cero?')) return;
+
+        localStorage.removeItem('mathAppProgress');
+        this.progress = this.loadProgress();
+        this.initializeModuleProgress();
+        this.updateProgressDisplay();
+        this.renderHomeStats();
+        this.renderProgressDetails();
+
+        const nameInput = document.getElementById('studentName');
+        if (nameInput) nameInput.value = '';
+
+        this.showFeedback('Progreso reiniciado', 'Listo, podés empezar desde cero.', true);
+    }
+
+    setupStudentNameField() {
+        const nameInput = document.getElementById('studentName');
+        if (!nameInput) return;
+
+        if (this.progress.studentName) {
+            nameInput.value = this.progress.studentName;
+        }
+
+        nameInput.addEventListener('change', () => {
+            this.progress.studentName = nameInput.value.trim();
+            this.saveProgress();
+        });
+    }
+
+    renderProgressDetails() {
+        const badgesContainer = document.getElementById('badgesContainer');
+        const statsContainer = document.getElementById('detailedStats');
+
+        if (!badgesContainer || !statsContainer) return;
+
+        // Badges
+        badgesContainer.innerHTML = '';
+        const achievements = this.progress.achievements || [];
+
+        if (achievements.length === 0) {
+            badgesContainer.innerHTML = '<p>Aún no hay logros. ¡Comenzá a resolver ejercicios!</p>';
+        } else {
+            const achievementMap = {
+                'first-star': { icon: '⭐', name: 'Primera estrella' },
+                'perfect-fractions': { icon: '🥧', name: 'Maestro en fracciones' },
+                'perfect-decimals': { icon: '💰', name: 'Maestro en decimales' },
+                'perfect-proportions': { icon: '📊', name: 'Maestro en proporciones' },
+                'perfect-operations': { icon: '🧮', name: 'Maestro en operaciones' }
+            };
+
+            achievements.forEach(id => {
+                const data = achievementMap[id] || { icon: '🏆', name: id };
+                const div = document.createElement('div');
+                div.className = 'badge';
+                div.innerHTML = `
+                    <div class="badge-icon">${data.icon}</div>
+                    <div class="badge-name">${data.name}</div>
+                `;
+                badgesContainer.appendChild(div);
+            });
+        }
+
+        // Estadísticas
+        statsContainer.innerHTML = '';
+        const modules = ['fractions', 'decimals', 'proportions', 'operations'];
+        const nameMap = {
+            fractions: 'Fracciones',
+            decimals: 'Decimales',
+            proportions: 'Proporcionalidad',
+            operations: 'Operaciones'
+        };
+
+        modules.forEach(module => {
+            const data = this.progress[module];
+            if (!data || !data.total) return;
+            const percent = data.total > 0 ? Math.round((data.completed / data.total) * 100) : 0;
+
+            const row = document.createElement('div');
+            row.className = 'stat-row';
+            row.innerHTML = `
+                <strong>${nameMap[module] || module}</strong>: 
+                ${data.completed}/${data.total} ejercicios completados (${percent}%)
+            `;
+            statsContainer.appendChild(row);
+        });
     }
 }
 
@@ -990,7 +1801,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.mathApp = new MathApp();
 });
 
-// Add some CSS for dynamic elements
+// Add some CSS for dynamic fraction visuals (se mantiene por compatibilidad)
 const dynamicStyles = document.createElement('style');
 dynamicStyles.textContent = `
     .fraction-circle {
@@ -1061,14 +1872,6 @@ dynamicStyles.textContent = `
         border-color: #4facfe;
     }
     
-    .numeric-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        margin: 15px 0;
-    }
-    
     .game-round {
         text-align: center;
         padding: 20px;
@@ -1090,5 +1893,4 @@ dynamicStyles.textContent = `
         margin: 20px auto;
     }
 `;
-
 document.head.appendChild(dynamicStyles);
