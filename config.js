@@ -1,12 +1,12 @@
 // Configuration file for Math Learning App
 const CONFIG = {
-    // Google Apps Script Web App URL for progress sync
-    // Replace this URL with your actual Google Apps Script deployment URL
+    // Google Apps Script Web App URL para sincronizar progreso
+    // Reemplaza esta URL con tu despliegue real de Google Apps Script
     SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbzcXRXxHjZoVjguDMfyi11xZcUocfive_Xj_kUEEr7gUWNH_nECXaw8uzf_-bqdd8I/exec',
     
     // App settings
-    APP_VERSION: '1.0.0',
-    APP_NAME: 'Mate Aventura',
+    APP_VERSION: '1.1.0',
+    APP_NAME: 'Matemáticas Kolbe 4º Grado',
     
     // Feature flags
     FEATURES: {
@@ -32,7 +32,7 @@ const CONFIG = {
     }
 };
 
-// Export for use in other modules
+// Export for Node / tests (no afecta al navegador)
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = CONFIG;
 }
