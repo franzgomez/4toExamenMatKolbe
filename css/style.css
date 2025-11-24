@@ -1012,3 +1012,29 @@ body {
         display: none;
     }
     }
+/* Botón de música */
+.music-btn {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    z-index: 1200;
+    background: linear-gradient(135deg, #42a5f5 0%, #1e88e5 100%);
+    border: none;
+    border-radius: 50%;
+    width: 52px;
+    height: 52px;
+    color: white;
+    font-size: 1.3rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    cursor: pointer;
+}
+
+@media (max-width: 480px) {
+    .music-btn {
+        top: 10px;
+        right: 10px;
+        width: 45px;
+        height: 45px;
+        font-size: 1.1rem;
+    }
+}
