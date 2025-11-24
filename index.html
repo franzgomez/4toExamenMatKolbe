@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>¡Mate Aventura! - Matemáticas 4º Grado</title>
+    <title>Matemáticas Kolbe – 4º Grado – Fin de Año</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
@@ -12,8 +12,19 @@
         <!-- Header -->
         <header class="main-header">
             <div class="header-content">
-                <h1>🚀 ¡Mate Aventura! 🚀</h1>
-                <p class="subtitle">Matemáticas para 4º Grado - ¡Aprende jugando!</p>
+                <div class="header-logos">
+                    <img src="kolbe-logo.png" alt="Colegio San Maximiliano Kolbe" class="kolbe-logo">
+                    <div class="header-title-block">
+                        <h1>Matemáticas Kolbe – 4º Grado</h1>
+                        <p class="subtitle">Prácticas de fin de año – Examen</p>
+                        <div class="student-info">
+                            <label for="studentName">Nombre y apellido:</label>
+                            <input id="studentName" type="text" placeholder="Escribí tu nombre...">
+                        </div>
+                    </div>
+                    <img src="kolbe-logo.png" alt="Colegio San Maximiliano Kolbe" class="kolbe-logo">
+                </div>
+
                 <div class="progress-bar">
                     <div class="progress-fill" id="overallProgress"></div>
                     <span class="progress-text" id="progressText">0% completado</span>
@@ -27,6 +38,7 @@
             <button class="nav-btn" data-section="fractions">🍕 Fracciones</button>
             <button class="nav-btn" data-section="decimals">💰 Decimales</button>
             <button class="nav-btn" data-section="proportions">📊 Proporciones</button>
+            <button class="nav-btn" data-section="operations">🧮 Operaciones</button>
             <button class="nav-btn" data-section="progress">⭐ Mi Progreso</button>
         </nav>
 
@@ -35,8 +47,8 @@
             <!-- Home Section -->
             <section id="home" class="content-section active">
                 <div class="welcome-card">
-                    <h2>🌟 ¡Bienvenido a tu aventura matemática! 🌟</h2>
-                    <p>Explora los módulos y completa los desafíos para convertirte en un maestro de las matemáticas.</p>
+                    <h2>🌟 ¡Bienvenido a Matemáticas Kolbe 4º! 🌟</h2>
+                    <p>Practicá todos los temas del examen de fin de año y sumá estrellas mientras resolvés ejercicios.</p>
                     <div class="stats-grid">
                         <div class="stat-card">
                             <div class="stat-icon">🏆</div>
@@ -46,7 +58,7 @@
                         <div class="stat-card">
                             <div class="stat-icon">🎯</div>
                             <div class="stat-number" id="totalExercises">0</div>
-                            <div class="stat-label">Ejercicios</div>
+                            <div class="stat-label">Ejercicios intentados</div>
                         </div>
                         <div class="stat-card">
                             <div class="stat-icon">🔥</div>
@@ -60,7 +72,7 @@
                     <div class="module-card" data-module="fractions">
                         <div class="module-icon">🍕</div>
                         <h3>Fracciones</h3>
-                        <p>Aprende sobre partes de un entero, comparación y operaciones</p>
+                        <p>Aprende sobre partes de un entero, comparación y operaciones.</p>
                         <div class="module-progress">
                             <div class="progress-bar small">
                                 <div class="progress-fill" data-progress="fractions"></div>
@@ -72,8 +84,8 @@
 
                     <div class="module-card" data-module="decimals">
                         <div class="module-icon">💰</div>
-                        <h3>Números Decimales</h3>
-                        <p>Descubre los decimales y su uso con dinero</p>
+                        <h3>Números decimales</h3>
+                        <p>Descubre los decimales y su uso con dinero.</p>
                         <div class="module-progress">
                             <div class="progress-bar small">
                                 <div class="progress-fill" data-progress="decimals"></div>
@@ -86,10 +98,23 @@
                     <div class="module-card" data-module="proportions">
                         <div class="module-icon">📊</div>
                         <h3>Proporcionalidad</h3>
-                        <p>Explora relaciones y tablas de proporcionalidad</p>
+                        <p>Explora relaciones y tablas de proporcionalidad.</p>
                         <div class="module-progress">
                             <div class="progress-bar small">
                                 <div class="progress-fill" data-progress="proportions"></div>
+                            </div>
+                            <span class="progress-percent">0%</span>
+                        </div>
+                        <button class="start-btn">¡Empezar!</button>
+                    </div>
+
+                    <div class="module-card" data-module="operations">
+                        <div class="module-icon">🧮</div>
+                        <h3>Operaciones</h3>
+                        <p>Sumas, restas, multiplicaciones y divisiones en forma de “casita”.</p>
+                        <div class="module-progress">
+                            <div class="progress-bar small">
+                                <div class="progress-fill" data-progress="operations"></div>
                             </div>
                             <span class="progress-percent">0%</span>
                         </div>
@@ -124,15 +149,15 @@
                                         <div class="pizza-slice"></div>
                                         <div class="pizza-slice"></div>
                                     </div>
-                                    <p>Esta pizza tiene <strong>4 partes iguales</strong></p>
-                                    <p>Si comemos <strong>1 parte</strong>, comimos <strong>1/4</strong> de la pizza</p>
+                                    <p>Esta pizza tiene <strong>4 partes iguales</strong>.</p>
+                                    <p>Si comemos <strong>1 parte</strong>, comimos <strong>1/4</strong> de la pizza.</p>
                                 </div>
                             </div>
                             <div class="concept-list">
                                 <h4>Partes de una fracción:</h4>
                                 <ul>
-                                    <li><strong>Numerador:</strong> Las partes que tomamos (arriba)</li>
-                                    <li><strong>Denominador:</strong> El total de partes (abajo)</li>
+                                    <li><strong>Numerador:</strong> Las partes que tomamos (arriba).</li>
+                                    <li><strong>Denominador:</strong> El total de partes (abajo).</li>
                                 </ul>
                             </div>
                         </div>
@@ -141,7 +166,7 @@
                     <!-- Fractions Exercises -->
                     <div id="fractions-exercises" class="tab-content">
                         <div class="exercise-container" id="fractionExercises">
-                            <!-- Exercises will be generated by JavaScript -->
+                            <!-- Exercises generated by JS -->
                         </div>
                     </div>
 
@@ -149,9 +174,9 @@
                     <div id="fractions-game" class="tab-content">
                         <div class="game-container">
                             <h3>🎮 Juego de Fracciones</h3>
-                            <p>Haz clic en la fracción correcta que representa la imagen</p>
+                            <p>Haz clic en la fracción correcta que representa la imagen.</p>
                             <div class="game-area" id="fractionGame">
-                                <!-- Game content will be generated by JavaScript -->
+                                <!-- Game generated by JS -->
                             </div>
                         </div>
                     </div>
@@ -186,15 +211,15 @@
                                         <div class="marker" style="left: 75%">0.75</div>
                                         <div class="marker" style="left: 100%">1</div>
                                     </div>
-                                    <p>Los decimales representan partes menores que 1</p>
+                                    <p>Los decimales representan partes menores que 1.</p>
                                 </div>
                             </div>
                             <div class="concept-list">
                                 <h4>Partes de un decimal:</h4>
                                 <ul>
-                                    <li><strong>Parte entera:</strong> Los números antes del punto</li>
-                                    <li><strong>Punto decimal:</strong> Separa la parte entera de la decimal</li>
-                                    <li><strong>Parte decimal:</strong> Los números después del punto</li>
+                                    <li><strong>Parte entera:</strong> Los números antes del punto.</li>
+                                    <li><strong>Punto decimal:</strong> Separa la parte entera de la decimal.</li>
+                                    <li><strong>Parte decimal:</strong> Los números después del punto.</li>
                                 </ul>
                             </div>
                         </div>
@@ -203,7 +228,7 @@
                     <!-- Decimals Exercises -->
                     <div id="decimals-exercises" class="tab-content">
                         <div class="exercise-container" id="decimalExercises">
-                            <!-- Exercises will be generated by JavaScript -->
+                            <!-- Exercises generated by JS -->
                         </div>
                     </div>
 
@@ -214,19 +239,19 @@
                             <div class="money-examples">
                                 <div class="coin-example">
                                     <div class="coin">1¢</div>
-                                    <p>1 centavo = 0.01 euros</p>
+                                    <p>1 centavo = 0.01 euros.</p>
                                 </div>
                                 <div class="coin-example">
                                     <div class="coin">5¢</div>
-                                    <p>5 centavos = 0.05 euros</p>
+                                    <p>5 centavos = 0.05 euros.</p>
                                 </div>
                                 <div class="coin-example">
                                     <div class="coin">10¢</div>
-                                    <p>10 centavos = 0.10 euros</p>
+                                    <p>10 centavos = 0.10 euros.</p>
                                 </div>
                             </div>
                             <div class="exercise-container" id="moneyExercises">
-                                <!-- Money exercises will be generated by JavaScript -->
+                                <!-- Money exercises generated by JS -->
                             </div>
                         </div>
                     </div>
@@ -237,7 +262,7 @@
             <section id="proportions" class="content-section">
                 <div class="module-header">
                     <h2>📊 Módulo de Proporcionalidad</h2>
-                    <p>La proporcionalidad nos ayuda a entender relaciones entre cantidades</p>
+                    <p>La proporcionalidad nos ayuda a entender relaciones entre cantidades.</p>
                 </div>
 
                 <div class="lesson-container">
@@ -272,7 +297,7 @@
                     <!-- Proportions Exercises -->
                     <div id="proportions-exercises" class="tab-content">
                         <div class="exercise-container" id="proportionExercises">
-                            <!-- Exercises will be generated by JavaScript -->
+                            <!-- Exercises generated by JS -->
                         </div>
                     </div>
 
@@ -281,7 +306,54 @@
                         <div class="tables-container">
                             <h3>📋 Completar Tablas de Proporcionalidad</h3>
                             <div class="exercise-container" id="tableExercises">
-                                <!-- Table exercises will be generated by JavaScript -->
+                                <!-- Table exercises generated by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Operations Section -->
+            <section id="operations" class="content-section">
+                <div class="module-header">
+                    <h2>🧮 Módulo de Operaciones</h2>
+                    <p>Sumas, restas, multiplicaciones y divisiones de 3 y 4 cifras en forma de “casita”.</p>
+                </div>
+
+                <div class="lesson-container">
+                    <div class="lesson-tabs">
+                        <button class="tab-btn active" data-tab="operations-intro">📚 Introducción</button>
+                        <button class="tab-btn" data-tab="operations-exercises">🎯 Ejercicios</button>
+                        <button class="tab-btn" data-tab="operations-game">🎮 Juego final</button>
+                    </div>
+
+                    <!-- Operations Introduction -->
+                    <div id="operations-intro" class="tab-content active">
+                        <div class="explanation-card">
+                            <h3>¿Cómo trabajamos las operaciones?</h3>
+                            <p>Vas a ver las operaciones en forma vertical, con cada cifra alineada (miles, centenas, decenas y unidades), igual que en el cuaderno.</p>
+                            <ul class="concept-list">
+                                <li>Resuelve la operación en tu cabeza o en una hoja.</li>
+                                <li>Completá los casilleros de abajo con el resultado, cifra por cifra.</li>
+                                <li>Si te equivocás en algún dígito, solo ese dígito se marcará en rojo.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Operations Exercises -->
+                    <div id="operations-exercises" class="tab-content">
+                        <div class="exercise-container" id="operationExercises">
+                            <!-- Operation exercises generated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Operations Game -->
+                    <div id="operations-game" class="tab-content">
+                        <div class="game-container">
+                            <h3>🎮 Juego final de operaciones</h3>
+                            <p>Elegí la opción correcta según la operación que aparece.</p>
+                            <div class="game-area" id="operationsGame">
+                                <!-- Game generated by JS -->
                             </div>
                         </div>
                     </div>
@@ -292,7 +364,7 @@
             <section id="progress" class="content-section">
                 <div class="progress-header">
                     <h2>⭐ Mi Progreso</h2>
-                    <p>¡Mira todo lo que has logrado!</p>
+                    <p>¡Mirá todo lo que has logrado!</p>
                 </div>
 
                 <div class="progress-dashboard">
@@ -301,7 +373,7 @@
                             <div class="achievement-icon">🏆</div>
                             <h3>Logros Desbloqueados</h3>
                             <div class="badges-container" id="badgesContainer">
-                                <!-- Badges will be populated by JavaScript -->
+                                <!-- Badges populated by JS -->
                             </div>
                         </div>
 
@@ -309,15 +381,16 @@
                             <div class="achievement-icon">📊</div>
                             <h3>Estadísticas</h3>
                             <div class="stats-list" id="detailedStats">
-                                <!-- Stats will be populated by JavaScript -->
+                                <!-- Stats populated by JS -->
                             </div>
                         </div>
 
                         <div class="achievement-card">
                             <div class="achievement-icon">💾</div>
-                            <h3>Exportar Progreso</h3>
+                            <h3>Exportar y Sincronizar</h3>
                             <button class="export-btn" id="exportProgress">📥 Descargar Progreso</button>
                             <button class="sync-btn" id="syncProgress">☁️ Sincronizar Online</button>
+                            <button class="reset-btn" id="resetProgress">🔄 Reiniciar Progreso</button>
                             <div class="sync-status" id="syncStatus"></div>
                         </div>
                     </div>
@@ -325,12 +398,12 @@
             </section>
         </main>
 
-        <!-- Exercise Modal -->
+        <!-- Exercise Modal (no lo usamos mucho pero lo dejamos) -->
         <div class="modal" id="exerciseModal">
             <div class="modal-content">
                 <span class="close">&times;</span>
                 <div class="modal-body" id="modalBody">
-                    <!-- Modal content will be inserted by JavaScript -->
+                    <!-- Modal content -->
                 </div>
             </div>
         </div>
@@ -339,14 +412,20 @@
         <div class="modal" id="feedbackModal">
             <div class="modal-content">
                 <div class="feedback-content" id="feedbackContent">
-                    <!-- Feedback content will be inserted by JavaScript -->
+                    <!-- Feedback content by JS -->
                 </div>
                 <button class="continue-btn" id="continueBtn">Continuar</button>
             </div>
         </div>
     </div>
 
+    <!-- Botones móviles flotantes -->
+    <div class="mobile-nav-buttons">
+        <button id="btnToTop" class="nav-circle-btn">⬆</button>
+        <button id="btnToHome" class="nav-circle-btn">🏠</button>
+    </div>
+
     <script src="config.js"></script>
     <script src="app.js"></script>
 </body>
-</html>
+    </html>
