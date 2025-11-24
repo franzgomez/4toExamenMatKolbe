@@ -30,16 +30,60 @@ body {
     text-align: center;
 }
 
+.header-content {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.header-logos {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.kolbe-logo {
+    width: 80px;
+    height: auto;
+}
+
+.header-title-block {
+    text-align: center;
+}
+
 .main-header h1 {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
+    font-size: 2.2rem;
+    margin-bottom: 5px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .subtitle {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     opacity: 0.9;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+}
+
+.student-info {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+}
+
+.student-info label {
+    font-size: 0.9rem;
+}
+
+.student-info input {
+    padding: 6px 10px;
+    border-radius: 15px;
+    border: 1px solid #ffffff;
+    max-width: 260px;
+    width: 100%;
+    text-align: center;
+    font-family: inherit;
 }
 
 /* Progress Bar */
@@ -49,8 +93,8 @@ body {
     height: 30px;
     position: relative;
     overflow: hidden;
-    margin: 0 auto;
-    max-width: 300px;
+    margin: 10px auto 0;
+    max-width: 320px;
 }
 
 .progress-fill {
@@ -177,7 +221,7 @@ body {
 /* Modules Grid */
 .modules-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 25px;
     margin-top: 20px;
 }
@@ -427,7 +471,7 @@ body {
     margin-bottom: 20px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     border: 2px solid transparent;
-    transition: border-color 0.3s ease;
+    transition: border-color 0.3s ease, background 0.3s ease;
 }
 
 .exercise-card.correct {
@@ -445,6 +489,7 @@ body {
     margin-bottom: 20px;
     font-weight: 600;
     color: #2c3e50;
+    white-space: pre-line;
 }
 
 .exercise-options {
@@ -489,6 +534,14 @@ body {
     border-color: #c62828;
 }
 
+.numeric-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 15px 0;
+}
+
 .numeric-input {
     width: 150px;
     padding: 12px;
@@ -515,7 +568,6 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     font-family: inherit;
-    margin-left: 15px;
 }
 
 .check-btn:hover {
@@ -615,6 +667,74 @@ body {
     margin: 20px 0;
 }
 
+/* Operations Layout (casita B2) */
+.operation-layout {
+    display: inline-block;
+    margin: 10px auto 20px;
+    font-family: "Courier New", monospace;
+}
+
+.operation-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 3px 0;
+}
+
+.op-symbol {
+    width: 16px;
+    text-align: right;
+    margin-right: 6px;
+}
+
+.digit-row {
+    display: grid;
+    grid-auto-flow: column;
+    column-gap: 6px;
+}
+
+.digit-box {
+    min-width: 24px;
+    min-height: 30px;
+    border-bottom: 2px solid #555;
+    text-align: center;
+    font-size: 1.1rem;
+    padding: 2px;
+}
+
+.operation-separator {
+    height: 2px;
+    background: #555;
+    margin: 4px 0 6px;
+}
+
+/* Inputs por dígito */
+.digit-input {
+    min-width: 24px;
+    min-height: 30px;
+    border: 2px solid #dee2e6;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 1.1rem;
+    padding: 2px;
+    font-family: inherit;
+}
+
+.digit-input:focus {
+    outline: none;
+    border-color: #4facfe;
+}
+
+.digit-input.correct {
+    border-color: #4caf50;
+    background: #e8f5e8;
+}
+
+.digit-input.incorrect {
+    border-color: #f44336;
+    background: #ffeaea;
+}
+
 /* Progress Dashboard */
 .progress-dashboard {
     margin-top: 20px;
@@ -622,7 +742,7 @@ body {
 
 .achievement-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 25px;
 }
 
@@ -665,14 +785,25 @@ body {
     color: #f57c00;
 }
 
+.stats-list {
+    text-align: left;
+    margin-top: 10px;
+}
+
+.stat-row {
+    margin-bottom: 6px;
+}
+
+/* Buttons: export, sync, reset */
 .export-btn,
-.sync-btn {
+.sync-btn,
+.reset-btn {
     background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
     color: white;
     border: none;
     border-radius: 12px;
     padding: 12px 20px;
-    margin: 10px;
+    margin: 8px;
     font-size: 1rem;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -680,8 +811,13 @@ body {
 }
 
 .export-btn:hover,
-.sync-btn:hover {
+.sync-btn:hover,
+.reset-btn:hover {
     transform: scale(1.05);
+}
+
+.reset-btn {
+    background: linear-gradient(135deg, #ff7043 0%, #f4511e 100%);
 }
 
 .sync-status {
@@ -781,6 +917,29 @@ body {
     font-family: inherit;
 }
 
+/* Mobile floating buttons */
+.mobile-nav-buttons {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 1100;
+}
+
+.nav-circle-btn {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(135deg, #42a5f5 0%, #1e88e5 100%);
+    color: #fff;
+    font-size: 1.4rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    cursor: pointer;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .app-container {
@@ -792,7 +951,7 @@ body {
     }
 
     .main-header h1 {
-        font-size: 2rem;
+        font-size: 1.8rem;
     }
 
     .modules-grid {
@@ -827,7 +986,15 @@ body {
     }
 
     .main-header h1 {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
+    }
+
+    .header-logos {
+        flex-direction: column;
+    }
+
+    .kolbe-logo:nth-of-type(2) {
+        display: none;
     }
 
     .main-content {
@@ -839,3 +1006,9 @@ body {
         padding: 20px;
     }
 }
+
+@media (min-width: 769px) {
+    .mobile-nav-buttons {
+        display: none;
+    }
+    }
