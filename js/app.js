@@ -1,3 +1,293 @@
+// Main Application Class for Matemáticas Kolbe
+class MathApp {
+    constructor() {
+        console.log('Iniciando MathApp...');
+        
+        // Initialize state
+        this.currentSection = 'home';
+        this.studentName = '';
+        this.progress = this.loadProgress();
+        this.confirmationCallback = null;
+        
+        // Load student name
+        this.loadStudentName();
+        
+        // Setup event listeners
+        this.setupEventListeners();
+        
+        // Initialize displays
+        this.updateProgressDisplay();
+        this.renderHomeStats();
+        
+        console.log('MathApp inicializado correctamente');
+    }
+    
+    // Initialize default progress structure
+    loadProgress() {
+        const savedProgress = Utils.loadFromStorage(CONFIG.STORAGE_KEYS.PROGRESS);
+        
+        if (savedProgress) {
+            return savedProgress;
+        }
+        
+        // Default progress structure
+        return {
+            modules: {
+                fractions: { progress: 0, exercises: 0, correct: 0, total: 0 },
+                decimals: { progress: 0, exercises: 0, correct: 0, total: 0 },
+                proportions: { progress: 0, exercises: 0, correct: 0, total: 0 },
+                operations: { progress: 0, exercises: 0, correct: 0, total: 0 },
+                exam: { progress: 0, exercises: 0, correct: 0, total: 0 }
+            },
+            totalExercises: 0,
+            correctAnswers: 0,
+            totalAnswers: 0,
+            totalStars: 0,
+            streak: 0,
+            perfectAnswers: 0,
+            achievements: [],
+            lastActivity: null
+        };
+    }
+    
+    saveProgress() {
+        Utils.saveToStorage(CONFIG.STORAGE_KEYS.PROGRESS, this.progress);
+    }
+    
+    loadStudentName() {
+        const savedName = Utils.loadFromStorage(CONFIG.STORAGE_KEYS.STUDENT_NAME);
+        if (savedName) {
+            this.studentName = savedName;
+            const nameInput = document.getElementById('studentName');
+            if (nameInput) {
+                nameInput.value = savedName;
+            }
+        }
+    }
+    
+    saveStudentName(name) {
+        if (Utils.isValidName(name)) {
+            this.studentName = name.trim();
+            Utils.saveToStorage(CONFIG.STORAGE_KEYS.STUDENT_NAME, this.studentName);
+            alert('✅ Nombre guardado correctamente');
+            return true;
+        } else {
+            alert('❌ Por favor ingresa un nombre válido (mínimo 2 letras)');
+            return false;
+        }
+    }
+    
+    requireStudentName(callback) {
+        if (!this.studentName || this.studentName.trim() === '') {
+            this.showModal('nameRequiredModal');
+            this.nameRequiredCallback = callback;
+            return false;
+        }
+        return true;
+    }
+    
+    setupEventListeners() {
+        // Navigation buttons
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const section = e.currentTarget.dataset.section;
+                this.showSection(section);
+            });
+        });
+        
+        // Module cards - start buttons
+        document.querySelectorAll('.module-card .start-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const card = e.target.closest('.module-card');
+                const module = card.dataset.module;
+                this.showSection(module);
+            });
+        });
+        
+        // Student name save button
+        const saveNameBtn = document.getElementById('saveNameBtn');
+        if (saveNameBtn) {
+            saveNameBtn.addEventListener('click', () => {
+                const nameInput = document.getElementById('studentName');
+                if (nameInput) {
+                    this.saveStudentName(nameInput.value);
+                }
+            });
+        }
+        
+        // Name modal buttons
+        const saveNameModalBtn = document.getElementById('saveNameModalBtn');
+        if (saveNameModalBtn) {
+            saveNameModalBtn.addEventListener('click', () => {
+                const nameInput = document.getElementById('nameModalInput');
+                if (nameInput && this.saveStudentName(nameInput.value)) {
+                    this.closeModal('nameRequiredModal');
+                    if (this.nameRequiredCallback) {
+                        this.nameRequiredCallback();
+                        this.nameRequiredCallback = null;
+                    }
+                }
+            });
+        }
+        
+        const cancelNameModalBtn = document.getElementById('cancelNameModalBtn');
+        if (cancelNameModalBtn) {
+            cancelNameModalBtn.addEventListener('click', () => {
+                this.closeModal('nameRequiredModal');
+                this.nameRequiredCallback = null;
+            });
+        }
+        
+        // Progress section buttons
+        const exportProgressBtn = document.getElementById('exportProgress');
+        if (exportProgressBtn) {
+            exportProgressBtn.addEventListener('click', () => this.exportProgress());
+        }
+        
+        const syncProgressBtn = document.getElementById('syncProgress');
+        if (syncProgressBtn) {
+            syncProgressBtn.addEventListener('click', () => this.syncProgress());
+        }
+        
+        const resetProgressBtn = document.getElementById('resetProgress');
+        if (resetProgressBtn) {
+            resetProgressBtn.addEventListener('click', () => this.showResetConfirmation());
+        }
+        
+        // Confirmation modal buttons
+        const confirmYesBtn = document.getElementById('confirmYesBtn');
+        if (confirmYesBtn) {
+            confirmYesBtn.addEventListener('click', () => this.handleConfirmation(true));
+        }
+        
+        const confirmNoBtn = document.getElementById('confirmNoBtn');
+        if (confirmNoBtn) {
+            confirmNoBtn.addEventListener('click', () => this.handleConfirmation(false));
+        }
+        
+        // Feedback modal continue button
+        const continueBtn = document.getElementById('continueBtn');
+        if (continueBtn) {
+            continueBtn.addEventListener('click', () => this.closeModal('feedbackModal'));
+        }
+        
+        // Mobile buttons
+        document.querySelectorAll('#scrollToTopBtn').forEach(btn => {
+            btn.addEventListener('click', () => Utils.scrollToTop());
+        });
+        
+        document.querySelectorAll('#backToHomeBtn').forEach(btn => {
+            btn.addEventListener('click', () => this.showSection('home'));
+        });
+        
+        // Modal close buttons
+        document.querySelectorAll('.modal .close').forEach(closeBtn => {
+            closeBtn.addEventListener('click', () => {
+                this.closeModal();
+            });
+        });
+        
+        // Close modals when clicking outside
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    this.closeModal();
+                }
+            });
+        });
+        
+        console.log('Event listeners configurados');
+    }
+    
+    showSection(sectionName) {
+        // Hide all sections
+        document.querySelectorAll('.content-section').forEach(section => {
+            section.classList.remove('active');
+        });
+        
+        // Show selected section
+        const selectedSection = document.getElementById(sectionName);
+        if (selectedSection) {
+            selectedSection.classList.add('active');
+        }
+        
+        // Update navigation buttons
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.dataset.section === sectionName) {
+                btn.classList.add('active');
+            }
+        });
+        
+        this.currentSection = sectionName;
+        
+        // Load section-specific content
+        if (sectionName === 'progress') {
+            this.renderProgressDashboard();
+        }
+        
+        // Scroll to top
+        Utils.scrollToTop();
+    }
+    
+    updateProgressDisplay() {
+        // Update overall progress bar
+        const overallProgress = Utils.calculateOverallProgress(
+            Object.fromEntries(
+                Object.keys(CONFIG.MODULES).map(key => [key, this.progress.modules[key].progress])
+            )
+        );
+        
+        const progressFill = document.getElementById('overallProgress');
+        const progressText = document.getElementById('progressText');
+        
+        if (progressFill) {
+            progressFill.style.width = `${overallProgress}%`;
+        }
+        
+        if (progressText) {
+            progressText.textContent = `${overallProgress}% completado`;
+        }
+        
+        // Update individual module progress
+        Object.keys(CONFIG.MODULES).forEach(moduleKey => {
+            const moduleProgress = this.progress.modules[moduleKey].progress;
+            const progressElement = document.querySelector(`[data-progress="${moduleKey}"]`);
+            const percentElement = document.getElementById(`${moduleKey}-progress`);
+            
+            if (progressElement) {
+                progressElement.style.width = `${moduleProgress}%`;
+            }
+            
+            if (percentElement) {
+                percentElement.textContent = `${moduleProgress}%`;
+            }
+        });
+    }
+    
+    renderHomeStats() {
+        const totalStarsEl = document.getElementById('totalStars');
+        const totalExercisesEl = document.getElementById('totalExercises');
+        const streakDaysEl = document.getElementById('streakDays');
+        const accuracyRateEl = document.getElementById('accuracyRate');
+        
+        if (totalStarsEl) {
+            totalStarsEl.textContent = this.progress.totalStars;
+        }
+        
+        if (totalExercisesEl) {
+            totalExercisesEl.textContent = this.progress.totalExercises;
+        }
+        
+        if (streakDaysEl) {
+            streakDaysEl.textContent = this.progress.streak;
+        }
+        
+        if (accuracyRateEl) {
+            const accuracy = Utils.calculateAccuracy(this.progress.correctAnswers, this.progress.totalAnswers);
+            accuracyRateEl.textContent = accuracy;
+        }
+    }
 
     // Progress Dashboard
     renderProgressDashboard() {
@@ -86,26 +376,6 @@
         });
     }
 
-    checkAndShowAchievements() {
-        const currentAchievements = Utils.checkAchievements(this.progress);
-        const newAchievements = currentAchievements.filter(achievement => 
-            !this.progress.achievements.includes(achievement)
-        );
-
-        if (newAchievements.length > 0) {
-            this.progress.achievements = currentAchievements;
-            this.saveProgress();
-            
-            newAchievements.forEach(achievement => {
-                this.showFeedbackModal({
-                    title: '🏆 ¡Nuevo Logro!',
-                    message: achievement,
-                    type: 'achievement'
-                });
-            });
-        }
-    }
-
     // Export and Sync Functions
     exportProgress() {
         if (!this.requireStudentName(() => this.exportProgress())) {
@@ -129,19 +399,11 @@
         Utils.generateProgressPDF(progressData, this.studentName)
             .then(success => {
                 if (success) {
-                    this.showFeedback('✅ Progreso exportado exitosamente', 'success');
+                    alert('✅ Progreso exportado exitosamente');
                 } else {
-                    this.showFeedback('❌ Error al exportar progreso', 'error');
+                    alert('❌ Error al exportar progreso');
                 }
             });
-    }
-
-    exportExamResults() {
-        // This would be called from exam results
-        if (!this.studentName) return;
-
-        // Generate exam-specific PDF
-        this.showFeedback('📥 Función de exportación de examen en desarrollo', 'info');
     }
 
     async syncProgress() {
@@ -227,7 +489,7 @@
         this.renderHomeStats();
         
         // Show success message
-        this.showFeedback('🔄 Progreso reiniciado exitosamente', 'success');
+        alert('🔄 Progreso reiniciado exitosamente');
         
         // Go to home
         this.showSection('home');
@@ -301,98 +563,16 @@
         
         this.confirmationCallback = null;
     }
-
-    showFeedback(message, type = 'info') {
-        // Simple feedback using browser alert for now
-        // Could be enhanced with custom notification system
-        alert(message);
-    }
-
-    // Fallback Exercise Generation (if JSON files fail to load)
-    generateFractionExercises() {
-        return [
-            {
-                id: 'frac_fallback_1',
-                type: 'multiple_choice',
-                question: '¿Qué fracción representa la mitad de algo?',
-                options: ['1/2', '1/3', '2/4', 'Ambas A y C'],
-                correct: 3,
-                explanation: '1/2 y 2/4 representan la misma cantidad: la mitad.',
-                hint: 'Piensa en fracciones equivalentes.'
-            }
-            // Add more fallback exercises as needed
-        ];
-    }
-
-    generateDecimalExercises() {
-        return [
-            {
-                id: 'dec_fallback_1',
-                type: 'multiple_choice',
-                question: '¿Cuál es el valor de 0.5 en fracción?',
-                options: ['1/2', '5/10', '50/100', 'Todas las anteriores'],
-                correct: 3,
-                explanation: '0.5 = 1/2 = 5/10 = 50/100. Todas son equivalentes.',
-                hint: '0.5 significa 5 décimos.'
-            }
-        ];
-    }
-
-    generateProportionExercises() {
-        return [
-            {
-                id: 'prop_fallback_1',
-                type: 'multiple_choice',
-                question: 'Si 2 manzanas cuestan 4€, ¿cuánto cuestan 4 manzanas?',
-                options: ['6€', '8€', '10€', '12€'],
-                correct: 1,
-                explanation: 'Si 2 manzanas = 4€, entonces 4 manzanas = 8€.',
-                hint: 'Encuentra el precio de 1 manzana primero.'
-            }
-        ];
-    }
-
-    generateOperationExercises() {
-        return [
-            {
-                id: 'op_fallback_1',
-                type: 'numeric',
-                question: 'Calcula: 25 + 37',
-                answer: 62,
-                explanation: '25 + 37 = 62',
-                hint: 'Suma las unidades primero: 5 + 7 = 12, luego las decenas: 20 + 30 = 50.'
-            }
-        ];
-    }
-
-    generateExamQuestions() {
-        return [
-            {
-                id: 'exam_fallback_1',
-                type: 'multiple_choice',
-                topic: 'fractions',
-                question: '¿Cuál fracción es mayor?',
-                options: ['1/3', '1/4', '1/5', '1/6'],
-                correct: 0,
-                points: 1,
-                explanation: '1/3 es la mayor porque el denominador es menor.'
-            }
-        ];
-    }
 }
 
 // Initialize the application when the page loads
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM loaded, inicializando app...');
     window.app = new MathApp();
     
     // Inicializar música de fondo
     Utils.initBackgroundMusic();
 });
-
-// Export for potential module use
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = MathApp;
-}
 
 // Export for potential module use
 if (typeof module !== 'undefined' && module.exports) {
