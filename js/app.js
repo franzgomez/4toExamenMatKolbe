@@ -205,6 +205,49 @@ this.examEngine.attachEventListeners();
 
         console.log('Event listeners configurados');
     }
+
+    // ---------------------------------------------------------
+// Configurar tabs de todos los módulos
+// ---------------------------------------------------------
+setupModuleTabs() {
+    document.querySelectorAll('.lesson-tabs .tab-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const tab = e.currentTarget.dataset.tab;
+
+            const parentTabs = e.currentTarget.closest('.lesson-tabs');
+            if (parentTabs) {
+                parentTabs.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                e.currentTarget.classList.add('active');
+            }
+
+            const container = e.currentTarget.closest('.lesson-container');
+            if (container) {
+                container.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                const targetContent = container.querySelector(`#${tab}`);
+                if (targetContent) targetContent.classList.add('active');
+            }
+
+            if (tab === 'fractions-exercises') {
+                this.exerciseEngine.loadModule('fractions');
+            } else if (tab === 'decimals-exercises') {
+                this.exerciseEngine.loadModule('decimals');
+            } else if (tab === 'proportions-exercises') {
+                this.exerciseEngine.loadModule('proportions');
+            }
+
+            if (tab === 'op-sum' ||
+                tab === 'op-sub' ||
+                tab === 'op-mult' ||
+                tab === 'op-div' ||
+                tab === 'op-game-missing' ||
+                tab === 'op-game-error') {
+
+                this.operationsEngine.render(tab);
+            }
+        });
+    });
+}
+
     
     showSection(sectionName) {
         // Hide all sections
