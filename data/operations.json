@@ -1,0 +1,174 @@
+{
+  "exercises": [
+    {
+      "id": "op_001",
+      "type": "vertical_operation",
+      "operation": "sum",
+      "question": "Resuelve la suma paso a paso:",
+      "problem": {
+        "number1": 456,
+        "number2": 278,
+        "answer": 734
+      },
+      "explanation": "456 + 278 = 734. Suma columna por columna empezando por las unidades.",
+      "hint": "Recuerda llevar cuando la suma de una columna es mayor a 9."
+    },
+    {
+      "id": "op_002",
+      "type": "vertical_operation",
+      "operation": "subtraction",
+      "question": "Resuelve la resta paso a paso:",
+      "problem": {
+        "number1": 532,
+        "number2": 149,
+        "answer": 383
+      },
+      "explanation": "532 - 149 = 383. Resta columna por columna, pidiendo prestado cuando sea necesario.",
+      "hint": "Si el número de arriba es menor, pide prestado de la columna de la izquierda."
+    },
+    {
+      "id": "op_003",
+      "type": "vertical_operation",
+      "operation": "multiplication",
+      "question": "Resuelve la multiplicación por 1 cifra:",
+      "problem": {
+        "number1": 234,
+        "number2": 6,
+        "answer": 1404
+      },
+      "explanation": "234 × 6 = 1404. Multiplica cada cifra por 6 y lleva cuando sea necesario.",
+      "hint": "Multiplica de derecha a izquierda: 4×6=24, escribes 4 y llevas 2."
+    },
+    {
+      "id": "op_004",
+      "type": "vertical_operation",
+      "operation": "division",
+      "question": "Resuelve la división:",
+      "problem": {
+        "dividend": 486,
+        "divisor": 6,
+        "quotient": 81,
+        "remainder": 0
+      },
+      "explanation": "486 ÷ 6 = 81. División exacta sin resto.",
+      "hint": "¿Cuántas veces cabe 6 en 48? 8 veces. ¿Cuántas veces cabe 6 en 6? 1 vez."
+    },
+    {
+      "id": "op_005",
+      "type": "multiple_choice",
+      "question": "¿Cuál es el resultado de 1,247 + 3,856?",
+      "options": [
+        "5,103",
+        "5,093",
+        "4,103",
+        "5,003"
+      ],
+      "correct": 0,
+      "explanation": "1,247 + 3,856 = 5,103",
+      "hint": "Suma columna por columna: 7+6=13 (escribes 3, llevas 1)."
+    },
+    {
+      "id": "op_006",
+      "type": "find_missing",
+      "question": "Encuentra el número que falta: 345 + ___ = 678",
+      "answer": 333,
+      "explanation": "678 - 345 = 333. Para encontrar el sumando que falta, resta.",
+      "hint": "Si a + b = c, entonces b = c - a."
+    },
+    {
+      "id": "op_007",
+      "type": "vertical_operation",
+      "operation": "multiplication",
+      "question": "Resuelve la multiplicación por 2 cifras:",
+      "problem": {
+        "number1": 147,
+        "number2": 23,
+        "answer": 3381
+      },
+      "explanation": "147 × 23 = 147 × 3 + 147 × 20 = 441 + 2940 = 3381",
+      "hint": "Multiplica por las unidades (3) y por las decenas (20) por separado, luego suma."
+    },
+    {
+      "id": "op_008",
+      "type": "vertical_operation",
+      "operation": "division",
+      "question": "Resuelve la división con resto:",
+      "problem": {
+        "dividend": 275,
+        "divisor": 8,
+        "quotient": 34,
+        "remainder": 3
+      },
+      "explanation": "275 ÷ 8 = 34 resto 3. Verificación: 34 × 8 + 3 = 272 + 3 = 275",
+      "hint": "Divide paso a paso y anota el resto al final."
+    },
+    {
+      "id": "op_009",
+      "type": "error_detection",
+      "question": "¿Hay algún error en esta operación? 456 + 289 = 745",
+      "correct_answer": false,
+      "error_explanation": "El resultado correcto es 456 + 289 = 745. La operación está correcta.",
+      "hint": "Revisa la suma columna por columna."
+    },
+    {
+      "id": "op_010",
+      "type": "word_problem",
+      "question": "En una tienda hay 1,245 libros. Si venden 378 libros por la mañana y 156 por la tarde, ¿cuántos libros quedan?",
+      "answer": 711,
+      "explanation": "Libros vendidos: 378 + 156 = 534. Libros que quedan: 1,245 - 534 = 711.",
+      "hint": "Primero suma los libros vendidos, luego resta del total inicial."
+    }
+  ],
+  "games": [
+    {
+      "id": "complete_missing",
+      "name": "Completar Faltantes",
+      "description": "Encuentra el número que falta en la operación",
+      "problems": [
+        {
+          "operation": "345 + ___ = 678",
+          "answer": 333
+        },
+        {
+          "operation": "___ - 123 = 456",
+          "answer": 579
+        },
+        {
+          "operation": "234 × ___ = 1404",
+          "answer": 6
+        },
+        {
+          "operation": "486 ÷ ___ = 81",
+          "answer": 6
+        }
+      ]
+    },
+    {
+      "id": "find_error",
+      "name": "Detectar Error",
+      "description": "Encuentra el error en las operaciones",
+      "problems": [
+        {
+          "operation": "456 + 289 = 745",
+          "hasError": false,
+          "correctAnswer": "745"
+        },
+        {
+          "operation": "532 - 149 = 393",
+          "hasError": true,
+          "correctAnswer": "383"
+        },
+        {
+          "operation": "234 × 6 = 1404",
+          "hasError": false,
+          "correctAnswer": "1404"
+        },
+        {
+          "operation": "275 ÷ 5 = 55",
+          "hasError": false,
+          "correctAnswer": "55"
+        }
+      ]
+    }
+  ]
+}
