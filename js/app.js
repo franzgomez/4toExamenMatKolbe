@@ -10,6 +10,9 @@ class MathApp {
         this.confirmationCallback = null;
         this.exerciseEngine = new ExerciseEngine(this);
         this.examEngine = new ExamEngine(this);
+        this.exerciseEngine = new ExerciseEngine(this);
+        this.examEngine = new ExamEngine(this);
+        this.operationsEngine = new OperationsEngine(this);
 
         // Load student name
         this.loadStudentName();
@@ -20,7 +23,9 @@ class MathApp {
         // Initialize displays
         this.updateProgressDisplay();
         this.renderHomeStats();
-        
+        this.setupModuleTabs();
+        this.examEngine.attachEventListeners();
+
         console.log('MathApp inicializado correctamente');
     }
     
