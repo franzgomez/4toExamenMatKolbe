@@ -1,19 +1,27 @@
 // Utility functions for Matemáticas Kolbe App
 class Utils {
     // Audio management
-    static playSound(soundType) {
-        if (!CONFIG.FEATURES.AUDIO_FEEDBACK) return;
+  static playSound(soundType) {
+    if (!CONFIG.FEATURES.AUDIO_FEEDBACK) return;
+    
+    try {
+        let audioElement;
         
-        try {
-            const audioElement = document.getElementById(soundType + 'Sound');
-            if (audioElement) {
-                audioElement.currentTime = 0;
-                audioElement.play().catch(e => console.log('Audio play failed:', e));
-            }
-        } catch (error) {
-            console.log('Audio error:', error);
+        // Identificar el elemento de audio correcto
+        if (soundType === 'correct') {
+            audioElement = document.getElementById('correctSound');
+        } else if (soundType === 'wrong') {
+            audioElement = document.getElementById('wrongSound');
         }
+        
+        if (audioElement) {
+            audioElement.currentTime = 0;
+            audioElement.play().catch(e => console.log('Audio play failed:', e));
+        }
+    } catch (error) {
+        console.log('Audio error:', error);
     }
+}
     
     // Local storage management
     static saveToStorage(key, data) {
