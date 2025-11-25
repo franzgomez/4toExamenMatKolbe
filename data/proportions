@@ -1,0 +1,164 @@
+{
+  "exercises": [
+    {
+      "id": "prop_001",
+      "type": "multiple_choice",
+      "question": "Si 2 manzanas cuestan 4€, ¿cuánto cuestan 6 manzanas?",
+      "options": [
+        "8€",
+        "12€",
+        "10€",
+        "6€"
+      ],
+      "correct": 1,
+      "explanation": "Si 2 manzanas = 4€, entonces 1 manzana = 2€, y 6 manzanas = 6 × 2€ = 12€.",
+      "hint": "Primero calcula cuánto cuesta 1 manzana."
+    },
+    {
+      "id": "prop_002",
+      "type": "table_completion",
+      "question": "Completa la tabla de proporcionalidad:",
+      "table": {
+        "headers": [
+          "Lápices",
+          "Precio (€)"
+        ],
+        "rows": [
+          [
+            1,
+            "?"
+          ],
+          [
+            3,
+            6
+          ],
+          [
+            5,
+            "?"
+          ],
+          [
+            8,
+            "?"
+          ]
+        ],
+        "answers": [
+          2,
+          10,
+          16
+        ]
+      },
+      "explanation": "La constante de proporcionalidad es 2€ por lápiz.",
+      "hint": "Encuentra cuánto cuesta 1 lápiz y multiplica por la cantidad."
+    },
+    {
+      "id": "prop_003",
+      "type": "numeric",
+      "question": "En una receta para 4 personas se necesitan 8 huevos. ¿Cuántos huevos se necesitan para 6 personas?",
+      "answer": 12,
+      "explanation": "8 huevos ÷ 4 personas = 2 huevos por persona. Para 6 personas: 6 × 2 = 12 huevos.",
+      "hint": "Calcula cuántos huevos necesita cada persona."
+    },
+    {
+      "id": "prop_004",
+      "type": "multiple_choice",
+      "question": "Si un coche consume 6 litros cada 100 km, ¿cuántos litros consumirá en 250 km?",
+      "options": [
+        "12 litros",
+        "15 litros",
+        "18 litros",
+        "20 litros"
+      ],
+      "correct": 1,
+      "explanation": "250 km ÷ 100 km = 2.5. Entonces 6 litros × 2.5 = 15 litros.",
+      "hint": "Divide la distancia total entre 100 km y multiplica por el consumo."
+    },
+    {
+      "id": "prop_005",
+      "type": "numeric",
+      "question": "Si 5 obreros construyen una pared en 10 días, ¿en cuántos días la construirán 10 obreros?",
+      "answer": 5,
+      "explanation": "Más obreros = menos días. 5 obreros × 10 días = 50 días-obrero. 50 ÷ 10 obreros = 5 días.",
+      "hint": "Esta es proporcionalidad inversa: más obreros, menos tiempo."
+    },
+    {
+      "id": "prop_006",
+      "type": "multiple_choice",
+      "question": "En una tienda, 3 camisetas cuestan 21€. ¿Cuál es el precio de 1 camiseta?",
+      "options": [
+        "6€",
+        "7€",
+        "8€",
+        "9€"
+      ],
+      "correct": 1,
+      "explanation": "21€ ÷ 3 camisetas = 7€ por camiseta.",
+      "hint": "Divide el precio total entre el número de camisetas."
+    },
+    {
+      "id": "prop_007",
+      "type": "numeric",
+      "question": "Si 4 pizzas alimentan a 12 personas, ¿cuántas pizzas se necesitan para alimentar a 18 personas?",
+      "answer": 6,
+      "explanation": "12 ÷ 4 = 3 personas por pizza. 18 ÷ 3 = 6 pizzas.",
+      "hint": "Calcula cuántas personas alimenta cada pizza."
+    },
+    {
+      "id": "prop_008",
+      "type": "multiple_choice",
+      "question": "Si la velocidad es constante y recorres 120 km en 2 horas, ¿cuántos km recorrerás en 5 horas?",
+      "options": [
+        "240 km",
+        "300 km",
+        "360 km",
+        "400 km"
+      ],
+      "correct": 1,
+      "explanation": "Velocidad = 120 km ÷ 2 h = 60 km/h. En 5 horas: 60 × 5 = 300 km.",
+      "hint": "Primero calcula la velocidad (km por hora)."
+    },
+    {
+      "id": "prop_009",
+      "type": "table_completion",
+      "question": "Completa la tabla de la máquina expendedora:",
+      "table": {
+        "headers": [
+          "Monedas de 0.50€",
+          "Total (€)"
+        ],
+        "rows": [
+          [
+            2,
+            "?"
+          ],
+          [
+            4,
+            2
+          ],
+          [
+            6,
+            "?"
+          ],
+          [
+            10,
+            "?"
+          ]
+        ],
+        "answers": [
+          1,
+          3,
+          5
+        ]
+      },
+      "explanation": "Cada moneda vale 0.50€, así que multiplicas el número de monedas por 0.50€.",
+      "hint": "Cada moneda vale 50 céntimos."
+    },
+    {
+      "id": "prop_010",
+      "type": "numeric",
+      "question": "Si 8 libros pesan 2.4 kg, ¿cuánto pesan 12 libros del mismo tipo?",
+      "answer": 3.6,
+      "explanation": "Cada libro pesa 2.4 ÷ 8 = 0.3 kg. 12 libros pesan 12 × 0.3 = 3.6 kg.",
+      "hint": "Calcula cuánto pesa cada libro individualmente."
+    }
+  ]
+}
