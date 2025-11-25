@@ -1,0 +1,126 @@
+{
+  "exercises": [
+    {
+      "id": "frac_001",
+      "type": "multiple_choice",
+      "question": "¿Qué fracción representa 3 partes de un total de 8?",
+      "options": [
+        "3/8",
+        "8/3",
+        "3/5",
+        "5/8"
+      ],
+      "correct": 0,
+      "explanation": "3/8 significa 3 partes de un total de 8 partes iguales.",
+      "hint": "El numerador (arriba) son las partes que tomamos, el denominador (abajo) es el total."
+    },
+    {
+      "id": "frac_002",
+      "type": "multiple_choice",
+      "question": "¿Cuál fracción es mayor?",
+      "options": [
+        "1/4",
+        "1/3",
+        "1/5",
+        "1/6"
+      ],
+      "correct": 1,
+      "explanation": "1/3 es mayor porque cuando el denominador es menor, las partes son más grandes.",
+      "hint": "Piensa en una pizza: ¿prefieres 1/3 o 1/4 de pizza?"
+    },
+    {
+      "id": "frac_003",
+      "type": "multiple_choice",
+      "question": "¿Qué fracción es equivalente a 1/2?",
+      "options": [
+        "2/4",
+        "1/3",
+        "3/5",
+        "1/4"
+      ],
+      "correct": 0,
+      "explanation": "2/4 = 1/2 porque ambas representan la mitad del entero.",
+      "hint": "Fracciones equivalentes representan la misma cantidad."
+    },
+    {
+      "id": "frac_004",
+      "type": "numeric",
+      "question": "¿Cuánto es 1/4 + 1/4? (Escribe solo el numerador)",
+      "answer": 2,
+      "explanation": "1/4 + 1/4 = 2/4. Como tienen el mismo denominador, sumamos los numeradores.",
+      "hint": "Cuando los denominadores son iguales, suma solo los numeradores."
+    },
+    {
+      "id": "frac_005",
+      "type": "multiple_choice",
+      "question": "En una recta numérica del 0 al 1, ¿dónde estaría 3/4?",
+      "options": [
+        "Cerca del 0",
+        "En la mitad",
+        "Cerca del 1",
+        "Después del 1"
+      ],
+      "correct": 2,
+      "explanation": "3/4 está cerca del 1 porque es 3 de 4 partes, casi completo.",
+      "hint": "3/4 significa que faltan solo 1/4 para llegar al entero completo."
+    },
+    {
+      "id": "frac_006",
+      "type": "multiple_choice",
+      "question": "Si una pizza tiene 8 porciones y comes 3, ¿qué fracción comiste?",
+      "options": [
+        "3/5",
+        "3/8",
+        "5/8",
+        "8/3"
+      ],
+      "correct": 1,
+      "explanation": "Comiste 3 porciones de 8 totales, que se escribe como 3/8.",
+      "hint": "El numerador es lo que comes, el denominador es el total."
+    },
+    {
+      "id": "frac_007",
+      "type": "numeric",
+      "question": "¿Cuánto es 2/3 + 1/3? (Escribe solo el numerador)",
+      "answer": 3,
+      "explanation": "2/3 + 1/3 = 3/3 = 1 entero. El numerador es 3.",
+      "hint": "Suma los numeradores cuando los denominadores son iguales."
+    },
+    {
+      "id": "frac_008",
+      "type": "multiple_choice",
+      "question": "¿Cuál de estas fracciones es menor que 1/2?",
+      "options": [
+        "2/3",
+        "3/4",
+        "1/3",
+        "4/5"
+      ],
+      "correct": 2,
+      "explanation": "1/3 es menor que 1/2 porque representa una parte más pequeña del entero.",
+      "hint": "Compara cada fracción con 1/2 = 0.5."
+    },
+    {
+      "id": "frac_009",
+      "type": "multiple_choice",
+      "question": "Si tienes una barra de chocolate con 6 pedazos y das 2, ¿qué fracción te queda?",
+      "options": [
+        "2/6",
+        "4/6",
+        "6/4",
+        "2/4"
+      ],
+      "correct": 1,
+      "explanation": "Te quedan 4 pedazos de 6 totales, que es 4/6.",
+      "hint": "Total - lo que das = lo que te queda."
+    },
+    {
+      "id": "frac_010",
+      "type": "numeric",
+      "question": "¿Cuántas cuartas partes hay en un entero?",
+      "answer": 4,
+      "explanation": "Un entero se divide en 4 cuartas partes: 1/4 + 1/4 + 1/4 + 1/4 = 4/4 = 1.",
+      "hint": "Piensa en cuántas veces cabe 1/4 en 1 entero."
+    }
+  ]
+}
