@@ -1,83 +1,85 @@
 // Utility functions for Matemáticas Kolbe App
 class Utils {
     // Audio management
-  static playSound(soundType) {
-    if (!CONFIG.FEATURES.AUDIO_FEEDBACK) return;
-    
-    try {
-        let audioElement;
+    static playSound(soundType) {
+        if (!CONFIG.FEATURES.AUDIO_FEEDBACK) return;
         
-        // Identificar el elemento de audio correcto
-        if (soundType === 'correct') {
-            audioElement = document.getElementById('correctSound');
-        } else if (soundType === 'wrong') {
-            audioElement = document.getElementById('wrongSound');
-        }
-        static initBackgroundMusic() {
-    if (!CONFIG.FEATURES.AUDIO_FEEDBACK) return;
-    
-    try {
-        const bgMusic = document.getElementById('bgMusic');
-        if (bgMusic) {
-            // Establecer volumen bajo para la música de fondo
-            bgMusic.volume = 0.3;
+        try {
+            let audioElement;
             
-            // Intentar reproducir (algunos navegadores requieren interacción del usuario)
-            bgMusic.play().catch(e => {
-                console.log('Background music autoplay blocked. Will start on user interaction.');
-                
-                // Iniciar música en la primera interacción del usuario
-                document.addEventListener('click', function startBgMusic() {
-                    bgMusic.play().catch(err => console.log('BG music error:', err));
-                    document.removeEventListener('click', startBgMusic);
-                }, { once: true });
-            });
+            // Identificar el elemento de audio correcto
+            if (soundType === 'correct') {
+                audioElement = document.getElementById('correctSound');
+            } else if (soundType === 'wrong') {
+                audioElement = document.getElementById('wrongSound');
+            }
+            
+            if (audioElement) {
+                audioElement.currentTime = 0;
+                audioElement.play().catch(e => console.log('Audio play failed:', e));
+            }
+        } catch (error) {
+            console.log('Audio error:', error);
         }
-    } catch (error) {
-        console.log('Background music error:', error);
     }
-}
 
-static toggleBackgroundMusic(play = null) {
-    try {
-        const bgMusic = document.getElementById('bgMusic');
-        if (!bgMusic) return;
+    static initBackgroundMusic() {
+        if (!CONFIG.FEATURES.AUDIO_FEEDBACK) return;
         
-        if (play === null) {
-            // Toggle (alternar)
-            if (bgMusic.paused) {
+        try {
+            const bgMusic = document.getElementById('bgMusic');
+            if (bgMusic) {
+                // Establecer volumen bajo para la música de fondo
+                bgMusic.volume = 0.3;
+                
+                // Intentar reproducir (algunos navegadores requieren interacción del usuario)
+                bgMusic.play().catch(e => {
+                    console.log('Background music autoplay blocked. Will start on user interaction.');
+                    
+                    // Iniciar música en la primera interacción del usuario
+                    document.addEventListener('click', function startBgMusic() {
+                        bgMusic.play().catch(err => console.log('BG music error:', err));
+                        document.removeEventListener('click', startBgMusic);
+                    }, { once: true });
+                });
+            }
+        } catch (error) {
+            console.log('Background music error:', error);
+        }
+    }
+
+    static toggleBackgroundMusic(play = null) {
+        try {
+            const bgMusic = document.getElementById('bgMusic');
+            if (!bgMusic) return;
+            
+            if (play === null) {
+                // Toggle (alternar)
+                if (bgMusic.paused) {
+                    bgMusic.play();
+                } else {
+                    bgMusic.pause();
+                }
+            } else if (play) {
                 bgMusic.play();
             } else {
                 bgMusic.pause();
             }
-        } else if (play) {
-            bgMusic.play();
-        } else {
-            bgMusic.pause();
+        } catch (error) {
+            console.log('Toggle music error:', error);
         }
-    } catch (error) {
-        console.log('Toggle music error:', error);
     }
-}
 
-static setMusicVolume(volume) {
-    try {
-        const bgMusic = document.getElementById('bgMusic');
-        if (bgMusic) {
-            bgMusic.volume = Math.max(0, Math.min(1, volume));
+    static setMusicVolume(volume) {
+        try {
+            const bgMusic = document.getElementById('bgMusic');
+            if (bgMusic) {
+                bgMusic.volume = Math.max(0, Math.min(1, volume));
+            }
+        } catch (error) {
+            console.log('Set volume error:', error);
         }
-    } catch (error) {
-        console.log('Set volume error:', error);
     }
-}
-        if (audioElement) {
-            audioElement.currentTime = 0;
-            audioElement.play().catch(e => console.log('Audio play failed:', e));
-        }
-    } catch (error) {
-        console.log('Audio error:', error);
-    }
-}
     
     // Local storage management
     static saveToStorage(key, data) {
