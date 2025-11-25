@@ -384,7 +384,15 @@
 // Initialize the application when the page loads
 document.addEventListener('DOMContentLoaded', () => {
     window.app = new MathApp();
+    
+    // Inicializar música de fondo
+    Utils.initBackgroundMusic();
 });
+
+// Export for potential module use
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = MathApp;
+}
 
 // Export for potential module use
 if (typeof module !== 'undefined' && module.exports) {
