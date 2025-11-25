@@ -8,7 +8,9 @@ class MathApp {
         this.studentName = '';
         this.progress = this.loadProgress();
         this.confirmationCallback = null;
-        
+        this.exerciseEngine = new ExerciseEngine(this);
+        this.examEngine = new ExamEngine(this);
+
         // Load student name
         this.loadStudentName();
         
@@ -195,7 +197,12 @@ class MathApp {
                 }
             });
         });
-        
+        // Tabs de módulos: cuando abren pestaña de ejercicios, cargamos el motor
+this.setupModuleTabs();
+
+// Enlazar botones del examen con el motor
+this.examEngine.attachEventListeners();
+
         console.log('Event listeners configurados');
     }
     
