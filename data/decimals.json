@@ -1,0 +1,126 @@
+{
+  "exercises": [
+    {
+      "id": "dec_001",
+      "type": "multiple_choice",
+      "question": "¿Cómo se lee 0.5?",
+      "options": [
+        "Cinco décimos",
+        "Cero punto cinco",
+        "Cinco centésimos",
+        "Medio"
+      ],
+      "correct": 0,
+      "explanation": "0.5 se lee como cinco décimos o medio.",
+      "hint": "El primer número después del punto son los décimos."
+    },
+    {
+      "id": "dec_002",
+      "type": "multiple_choice",
+      "question": "¿Cuál número es mayor?",
+      "options": [
+        "0.3",
+        "0.25",
+        "0.4",
+        "0.35"
+      ],
+      "correct": 2,
+      "explanation": "0.4 es el mayor porque 4 décimos es más que 3 décimos.",
+      "hint": "Compara los décimos primero (el número después del punto)."
+    },
+    {
+      "id": "dec_003",
+      "type": "multiple_choice",
+      "question": "Si tienes 2 euros y 50 céntimos, ¿cómo se escribe en decimales?",
+      "options": [
+        "2.50€",
+        "2.5€",
+        "250€",
+        "Ambas A y B"
+      ],
+      "correct": 3,
+      "explanation": "2.50€ y 2.5€ son equivalentes, ambas representan 2 euros y 50 céntimos.",
+      "hint": "Los céntimos se escriben después del punto decimal."
+    },
+    {
+      "id": "dec_004",
+      "type": "numeric",
+      "question": "¿Cuánto es 0.2 + 0.3? (Escribe como decimal)",
+      "answer": 0.5,
+      "explanation": "0.2 + 0.3 = 0.5 (dos décimos más tres décimos igual cinco décimos).",
+      "hint": "Suma los décimos: 2 + 3 = 5 décimos = 0.5."
+    },
+    {
+      "id": "dec_005",
+      "type": "multiple_choice",
+      "question": "¿Qué fracción representa 0.25?",
+      "options": [
+        "1/2",
+        "1/4",
+        "1/3",
+        "1/5"
+      ],
+      "correct": 1,
+      "explanation": "0.25 = 25/100 = 1/4 (un cuarto).",
+      "hint": "0.25 es lo mismo que 25 centésimos."
+    },
+    {
+      "id": "dec_006",
+      "type": "multiple_choice",
+      "question": "Si una botella de agua cuesta 1.25€, ¿cuánto cuestan 2 botellas?",
+      "options": [
+        "2.25€",
+        "2.50€",
+        "3.25€",
+        "2.75€"
+      ],
+      "correct": 1,
+      "explanation": "1.25€ × 2 = 2.50€",
+      "hint": "Multiplica 1.25 por 2."
+    },
+    {
+      "id": "dec_007",
+      "type": "numeric",
+      "question": "¿Cuánto es 1.5 - 0.8? (Escribe como decimal)",
+      "answer": 0.7,
+      "explanation": "1.5 - 0.8 = 0.7",
+      "hint": "Resta los décimos: 15 décimos - 8 décimos = 7 décimos."
+    },
+    {
+      "id": "dec_008",
+      "type": "multiple_choice",
+      "question": "¿Cuál es el orden de menor a mayor?",
+      "options": [
+        "0.1, 0.2, 0.15",
+        "0.1, 0.15, 0.2",
+        "0.15, 0.1, 0.2",
+        "0.2, 0.15, 0.1"
+      ],
+      "correct": 1,
+      "explanation": "0.1 < 0.15 < 0.2 (de menor a mayor).",
+      "hint": "Compara los décimos primero, después los centésimos."
+    },
+    {
+      "id": "dec_009",
+      "type": "multiple_choice",
+      "question": "Si corres 2.3 km por la mañana y 1.7 km por la tarde, ¿cuánto corriste en total?",
+      "options": [
+        "3.0 km",
+        "4.0 km",
+        "3.10 km",
+        "4.10 km"
+      ],
+      "correct": 1,
+      "explanation": "2.3 + 1.7 = 4.0 km",
+      "hint": "Suma los enteros y los décimos por separado."
+    },
+    {
+      "id": "dec_010",
+      "type": "numeric",
+      "question": "¿Cuántos centésimos hay en 0.35?",
+      "answer": 35,
+      "explanation": "0.35 = 35 centésimos (35/100).",
+      "hint": "Los centésimos son las dos cifras después del punto decimal."
+    }
+  ]
+}
